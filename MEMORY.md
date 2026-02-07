@@ -10,7 +10,7 @@
 
 **Genre:** Cozy management sim + life sim + collection/gacha
 **Inspiration:** Stardew Valley meets classroom management
-**Platform:** Mobile-first HTML5, deployable on Heroku
+**Platform:** Desktop/Laptop (HTML5, itch.io or downloadable build)
 
 **Real-World Inspiration:** Virginia, Robert's girlfriend, is a lead guide at a Montessori toddler school. Many mechanics (nap time challenges, milestones, daily routines) are based on her authentic experiences.
 
@@ -31,6 +31,9 @@
 | Art style | Cozy pixel art (Stardew Valley style) | 2026-02-07 |
 | Narrative arc | Join as assistant, work up to lead guide | 2026-02-07 |
 | Improvement mechanic | Notice non-Montessori practices, gain authority to fix them as you advance | 2026-02-07 |
+| **Platform** | **Desktop/Laptop (PIVOTED from mobile-first)** | **2026-02-07** |
+| Controls | Mouse + keyboard (like Stardew Valley) | 2026-02-07 |
+| Deployment | itch.io (HTML5) or downloadable build | 2026-02-07 |
 
 ---
 
@@ -123,14 +126,22 @@ All in `_bmad-output/planning-artifacts/`:
 - Diverse skin tones, hair styles, clothing colors
 - Interactive hover system shows child personality/state
 - Fully documented in session logs and README
-- **Next steps:** Add lesson presentation, movement/NPC behavior, material interactions
+- Tested on phone - UI too small, led to important pivot
+- **PLATFORM PIVOT:** Mobile-first → Desktop/Laptop primary platform
+  - Reason: Management sims need screen space, precise controls
+  - Text/sprites too small on mobile
+  - Mouse + keyboard = better UX for this genre
+  - Stardew Valley is PC-first for good reason
+  - Deploy to itch.io or downloadable build
+- **Next steps:** Resize canvas for desktop, add lesson presentation, movement/NPC behavior
 
 **Session Documentation:**
 - ✅ README.md created (quick start guide)
 - ✅ session-log-prototype-2026-02-07.md (complete technical notes)
+- ✅ montessori-milestones-and-mechanics.md (nap time + progression)
 - ✅ .gitignore added for version control
-- ✅ All code commented and organized
-- ✅ Future NPC requirements noted
+- ✅ All code committed to git
+- ✅ Platform pivot documented
 
 ---
 

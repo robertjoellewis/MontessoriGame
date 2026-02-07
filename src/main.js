@@ -3,8 +3,8 @@ import ObservationScene from './scenes/ObservationScene.js';
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     parent: 'game-container',
     backgroundColor: '#f5e6d3', // Warm classroom color
     pixelArt: true, // Critical for pixel art games!

@@ -11,15 +11,15 @@ export default class ObservationScene extends Phaser.Scene {
 
     create() {
         // Title
-        this.add.text(400, 30, 'Observation Mechanic Prototype', {
-            fontSize: '24px',
+        this.add.text(640, 40, 'Observation Mechanic Prototype - Desktop Version', {
+            fontSize: '32px',
             color: '#333',
             fontStyle: 'bold'
         }).setOrigin(0.5);
 
         // Instructions
-        this.add.text(400, 60, 'Hover over children to observe them', {
-            fontSize: '16px',
+        this.add.text(640, 85, 'Hover over children to observe them', {
+            fontSize: '20px',
             color: '#666'
         }).setOrigin(0.5);
 
@@ -31,10 +31,10 @@ export default class ObservationScene extends Phaser.Scene {
     }
 
     createObservationPanel() {
-        const panelX = 600;
-        const panelY = 150;
-        const panelWidth = 180;
-        const panelHeight = 200;
+        const panelX = 1050;
+        const panelY = 300;
+        const panelWidth = 400;
+        const panelHeight = 350;
 
         // Background
         this.observationBg = this.add.rectangle(
@@ -46,61 +46,64 @@ export default class ObservationScene extends Phaser.Scene {
         this.observationBg.setVisible(false);
 
         // Child name
-        this.observationName = this.add.text(panelX, panelY - 80, '', {
-            fontSize: '18px',
+        this.observationName = this.add.text(panelX, panelY - 150, '', {
+            fontSize: '28px',
             color: '#333',
             fontStyle: 'bold',
-            wordWrap: { width: panelWidth - 20 }
+            wordWrap: { width: panelWidth - 40 }
         }).setOrigin(0.5, 0);
         this.observationName.setVisible(false);
 
         // Child age
-        this.observationAge = this.add.text(panelX, panelY - 60, '', {
-            fontSize: '14px',
+        this.observationAge = this.add.text(panelX, panelY - 110, '', {
+            fontSize: '18px',
             color: '#666',
-            wordWrap: { width: panelWidth - 20 }
+            wordWrap: { width: panelWidth - 40 }
         }).setOrigin(0.5, 0);
         this.observationAge.setVisible(false);
 
         // Temperament
-        this.observationTemp = this.add.text(panelX, panelY - 35, '', {
-            fontSize: '13px',
+        this.observationTemp = this.add.text(panelX, panelY - 75, '', {
+            fontSize: '18px',
             color: '#444',
-            wordWrap: { width: panelWidth - 20 }
+            wordWrap: { width: panelWidth - 40 }
         }).setOrigin(0.5, 0);
         this.observationTemp.setVisible(false);
 
         // Sensitive periods
-        this.observationPeriods = this.add.text(panelX, panelY - 5, '', {
-            fontSize: '12px',
+        this.observationPeriods = this.add.text(panelX, panelY - 30, '', {
+            fontSize: '16px',
             color: '#2a5599',
-            wordWrap: { width: panelWidth - 20 }
+            wordWrap: { width: panelWidth - 40 },
+            lineSpacing: 8
         }).setOrigin(0.5, 0);
         this.observationPeriods.setVisible(false);
 
         // Current mood
-        this.observationMood = this.add.text(panelX, panelY + 50, '', {
-            fontSize: '12px',
+        this.observationMood = this.add.text(panelX, panelY + 80, '', {
+            fontSize: '16px',
             color: '#c2185b',
-            wordWrap: { width: panelWidth - 20 }
+            wordWrap: { width: panelWidth - 40 },
+            lineSpacing: 6
         }).setOrigin(0.5, 0);
         this.observationMood.setVisible(false);
 
         // Interests
-        this.observationInterests = this.add.text(panelX, panelY + 75, '', {
-            fontSize: '12px',
+        this.observationInterests = this.add.text(panelX, panelY + 130, '', {
+            fontSize: '16px',
             color: '#558b2f',
-            wordWrap: { width: panelWidth - 20 }
+            wordWrap: { width: panelWidth - 40 },
+            lineSpacing: 6
         }).setOrigin(0.5, 0);
         this.observationInterests.setVisible(false);
     }
 
     spawnChildren() {
-        // Grid layout for children (3 rows x 4 cols)
-        const startX = 100;
-        const startY = 150;
-        const spacingX = 120;
-        const spacingY = 120;
+        // Grid layout for children (3 rows x 4 cols) - more space on desktop
+        const startX = 150;
+        const startY = 180;
+        const spacingX = 150;
+        const spacingY = 150;
 
         childrenData.forEach((childData, index) => {
             const row = Math.floor(index / 4);
@@ -113,7 +116,7 @@ export default class ObservationScene extends Phaser.Scene {
 
             // Create child sprite using the generated texture
             const child = this.add.sprite(x, y, spriteKey);
-            child.setScale(1.0); // Now they're properly sized
+            child.setScale(1.5); // Bigger for desktop visibility
 
             // Make interactive
             child.setInteractive({ useHandCursor: true });
@@ -122,21 +125,23 @@ export default class ObservationScene extends Phaser.Scene {
             child.childData = childData;
 
             // Label with name
-            const nameLabel = this.add.text(x, y + 35, childData.name, {
-                fontSize: '11px',
+            const nameLabel = this.add.text(x, y + 45, childData.name, {
+                fontSize: '16px',
                 color: '#333',
-                fontStyle: 'bold'
+                fontStyle: 'bold',
+                backgroundColor: '#ffffff',
+                padding: { x: 4, y: 2 }
             }).setOrigin(0.5);
 
             // Hover events
             child.on('pointerover', () => {
                 this.showObservation(child.childData);
-                child.setScale(1.3); // Zoom in on hover
+                child.setScale(1.8); // Zoom in on hover
             });
 
             child.on('pointerout', () => {
                 this.hideObservation();
-                child.setScale(1.0); // Back to normal size
+                child.setScale(1.5); // Back to normal size
             });
 
             this.studentList.push({ sprite: child, label: nameLabel, data: childData });

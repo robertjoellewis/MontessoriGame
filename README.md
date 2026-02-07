@@ -3,8 +3,9 @@
 A cozy Montessori toddler classroom management game built with Phaser 3.
 
 **Genre:** Management sim + Life sim + Collection/Gacha
-**Platform:** Mobile-first HTML5
+**Platform:** Desktop/Laptop (HTML5, 1280x720)
 **Art Style:** Pixel art (Stardew Valley inspired)
+**Controls:** Mouse + Keyboard (like Stardew Valley)
 **Target Audience:** Toddler educators, Montessori enthusiasts, cozy game fans
 
 ---
@@ -105,6 +106,8 @@ Each child has unique personality based on Montessori developmental theory:
 - Cozy pixel art style
 - Start as assistant, work up to lead guide
 - Fix non-Montessori practices as you advance
+- **Desktop/Laptop platform** (pivoted from mobile after testing)
+- Mouse + keyboard controls (Stardew Valley style)
 
 ---
 
@@ -113,8 +116,10 @@ Each child has unique personality based on Montessori developmental theory:
 - **Game Framework:** Phaser 3.80.1
 - **Build Tool:** Vite 5.0
 - **Language:** JavaScript (ES6 modules)
-- **Deployment Target:** HTML5 (Heroku)
-- **Art:** Procedural pixel art (48x48 sprites)
+- **Deployment Target:** HTML5 (itch.io or downloadable build)
+- **Canvas Size:** 1280x720 (desktop optimized)
+- **Art:** Procedural pixel art (48x48 base, scaled up)
+- **Controls:** Mouse (primary) + Keyboard (shortcuts)
 
 **Important Config:**
 - `pixelArt: true` in Phaser config (critical for crisp rendering)
@@ -128,8 +133,9 @@ Each child has unique personality based on Montessori developmental theory:
 1. Make sure Node.js is installed
 2. `npm install` (first time only)
 3. `npm run dev`
-4. Open http://localhost:5173/
-5. Hover over children to see observation panel
+4. Open http://localhost:5173/ in your desktop browser
+5. Hover over children with mouse to see observation panel
+6. Game is optimized for 1280x720 or larger screens
 
 ### Hot Reload
 Vite automatically reloads when you change code. Just save and the browser updates instantly.
