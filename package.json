@@ -1,0 +1,20 @@
+{
+  "name": "montessori-game",
+  "version": "0.1.0",
+  "description": "Cozy Montessori toddler classroom management game",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["game", "montessori", "phaser"],
+  "author": "Robert",
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "^3.80.1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
