@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MontessoriGame - Asset Viewer</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             margin: 0;
             padding: 20px;
@@ -116,104 +119,756 @@
             text-align: center;
             font-style: italic;
         }
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 2px solid #555;
+            padding-bottom: 0;
+        }
+        .nav-tab {
+            background: #3a3a3a;
+            color: #aaa;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .nav-tab:hover {
+            background: #4a4a4a;
+            color: #fff;
+        }
+        .nav-tab.active {
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .character-showcase {
+            background: #f5e6d3;
+            padding: 40px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .character-showcase canvas {
+            margin: 20px auto;
+            display: block;
+        }
+        .character-info {
+            margin-top: 20px;
+            color: #333;
+            line-height: 1.8;
+        }
+        .character-info strong {
+            color: #4CAF50;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎨 MontessoriGame - Asset Viewer</h1>
-        <p>View all sprites, backgrounds, and assets for the game.</p>
+        <p>Browse all sprites, backgrounds, and assets for the game.</p>
 
         <div class="controls">
             <button onclick="window.location.reload()">Refresh Assets</button>
             <button onclick="window.location.href='index.html'">Back to Game</button>
-            <button onclick="exportAllSprites()">Export All Sprites</button>
         </div>
 
-        <!-- Characters Section -->
-        <div class="section">
-            <h2>👤 Character Sprites</h2>
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('virginia', event)">Virginia (Player)</button>
+            <button class="nav-tab" onclick="showTab('toddlers', event)">Toddlers (12)</button>
+            <button class="nav-tab" onclick="showTab('npcs', event)">NPCs</button>
+            <button class="nav-tab" onclick="showTab('locations', event)">Locations</button>
+            <button class="nav-tab" onclick="showTab('materials', event)">📚 Materials (NEW)</button>
+            <button class="nav-tab" onclick="showTab('ui', event)">UI Elements</button>
+            <button class="nav-tab" onclick="showTab('audio', event)">🎵 Audio</button>
+        </div>
 
-            <h3>Virginia (Player Character) <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                Virginia sprite needs to be created:<br>
-                - Green eyes<br>
-                - Shoulder-length curly light brown hair, parted in middle<br>
-                - Green sweatshirt (with "Green Bean" if readable)<br>
-                - Walk animations (4 directions)
-            </div>
+        <!-- Virginia Tab -->
+        <div id="virginia-tab" class="tab-content active">
+            <div class="section">
+                <h2>👤 Virginia - Player Character <span class="status done">DONE</span></h2>
 
-            <h3>NPCs <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                Need to create:<br>
-                - Zach (lead guide)<br>
-                - Kiki (assistant)<br>
-                - Parents (generic)
-            </div>
+                <div class="character-showcase">
+                    <h3>Virginia with Neck Bandana</h3>
+                    <canvas id="virginia-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Features:</strong><br>
+                        ✓ Glasses (round frames)<br>
+                        ✓ Curly light brown hair, parted in middle, shoulder-length, poofy at bottom<br>
+                        ✓ Green eyes<br>
+                        ✓ White bandana around neck<br>
+                        ✓ Coral/peach shirt<br>
+                        ✓ Blue denim jean shorts<br>
+                        ✓ Camo crocs<br>
+                        ✓ Slim build
+                    </div>
+                </div>
 
-            <h3>Toddlers (12 characters) <span class="status done">DONE</span></h3>
-            <div class="sprite-grid" id="toddler-sprites">
-                <!-- Will be populated by JavaScript -->
+                <div class="character-showcase">
+                    <h3>Virginia with Head Bandana (Alternative)</h3>
+                    <canvas id="virginia-headband-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Alternative look:</strong> Bandana worn like a veil/headscarf
+                    </div>
+                </div>
+
+                <div class="character-showcase">
+                    <h3>Virginia - Side View (Right-Facing)</h3>
+                    <canvas id="virginia-side-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Side profile view</strong> for left/right movement<br>
+                        Shows curly hair profile, one visible eye, bandana from side
+                    </div>
+                </div>
+
+                <div class="character-showcase">
+                    <h3>Virginia - Back View</h3>
+                    <canvas id="virginia-back-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Back view</strong> for walking away from camera<br>
+                        Shows full curly hair, bandana knot, back of outfit
+                    </div>
+                </div>
+
+                <div class="character-showcase">
+                    <h3>Virginia - Side View with Head Bandana</h3>
+                    <canvas id="virginia-side-headband-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Side profile view</strong> with bandana on head (veil style)<br>
+                        Shows poofy curls below bandana, one visible eye
+                    </div>
+                </div>
+
+                <div class="character-showcase">
+                    <h3>Virginia - Back View with Head Bandana</h3>
+                    <canvas id="virginia-back-headband-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Back view</strong> with bandana on head (veil style)<br>
+                        Shows bandana knot, poofy curls below
+                    </div>
+                </div>
+
+                <div class="character-showcase">
+                    <h3>Virginia - Portrait Icon</h3>
+                    <img src="src/assets/sprites/virginia_portrait.png" width="100" height="100" style="image-rendering: pixelated; border: 3px solid #2C1C0C; background: #8B6F47; padding: 10px;">
+                    <div class="character-info">
+                        <strong>Real Photo → Pixelated with ChatGPT</strong><br>
+                        Pixel art portrait icon<br>
+                        Retro video game style<br>
+                        Used in name selection screen<br>
+                        Virginia's actual face converted to pixel art
+                    </div>
+                </div>
+
+                <div class="character-showcase">
+                    <h3>Robert - Boyfriend (Work-from-Home) ❤️</h3>
+                    <canvas id="robert-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Character:</strong> Virginia's boyfriend<br>
+                        Works from home at desk with laptop<br>
+                        <em>Note: Placeholder sprite - will update with photo reference</em><br>
+                        <strong>Future Mechanic:</strong> Love points system (post-prototype)
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Locations Section -->
-        <div class="section">
-            <h2>🏠 Location Backgrounds</h2>
-
-            <h3>Virginia's Cottage Interior <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                Needs: Bedroom area, coffee maker, door, cozy furniture
-            </div>
-
-            <h3>School Classroom <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                Needs: Shelves, tables, nap mats area, bathroom, materials
-            </div>
-
-            <h3>Village/Path <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                Needs: Path from cottage to school, simple village elements
+        <!-- Toddlers Tab -->
+        <div id="toddlers-tab" class="tab-content">
+            <div class="section">
+                <h2>👶 Toddlers (12 characters) <span class="status done">DONE</span></h2>
+                <p>All 12 toddlers with unique personalities, temperaments, and sensitive periods.</p>
+                <div class="sprite-grid" id="toddler-sprites">
+                    <!-- Will be populated by JavaScript -->
+                </div>
             </div>
         </div>
 
-        <!-- UI Elements Section -->
-        <div class="section">
-            <h2>🎨 UI Elements</h2>
+        <!-- NPCs Tab -->
+        <div id="npcs-tab" class="tab-content">
+            <div class="section">
+                <h2>👥 NPCs (Non-Player Characters)</h2>
 
-            <h3>HUD Components <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                - Clock display<br>
-                - Energy bar<br>
-                - Trust meter<br>
-                - Money counter
-            </div>
+                <h3>Zach (Lead Guide) <span class="status todo">TODO</span></h3>
+                <div class="placeholder">
+                    Virginia's supervisor at the school<br>
+                    - Male adult sprite<br>
+                    - Professional but warm<br>
+                    - Portrait needed for dialogue
+                </div>
 
-            <h3>Dialogue System <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                - Dialogue box frame<br>
-                - Portrait frames<br>
-                - Lesson menu
+                <h3>Kiki (Assistant) <span class="status todo">TODO</span></h3>
+                <div class="placeholder">
+                    Fellow assistant, friendly peer<br>
+                    - Female adult sprite<br>
+                    - Casual, helpful<br>
+                    - Portrait needed for dialogue
+                </div>
+
+                <h3>Parents <span class="status todo">TODO</span></h3>
+                <div class="placeholder">
+                    Generic parent sprites for drop-off/pickup<br>
+                    - 2-3 reusable parent sprites<br>
+                    - Diverse representation
+                </div>
             </div>
         </div>
 
-        <!-- Materials/Objects Section -->
-        <div class="section">
-            <h2>🧸 Montessori Materials & Objects</h2>
+        <!-- Locations Tab -->
+        <div id="locations-tab" class="tab-content">
+            <div class="section">
+                <h2>🏠 Location Backgrounds</h2>
 
-            <h3>Interactive Objects <span class="status todo">TODO</span></h3>
-            <div class="placeholder">
-                - Coffee maker<br>
-                - Alarm clock<br>
-                - Classroom materials (shelves)<br>
-                - Nap mats
+                <h3>Virginia's Cottage Interior <span class="status done">DONE</span></h3>
+                <p style="color: #aaa;">Stardew Valley-inspired pixel art furniture and decor</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Floor ⚙️ PROCEDURAL (NEW)</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-floor-canvas" width="128" height="128"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural Generation<br>128x128 seamless tile<br>3 LARGE vertical planks (42px each)<br>Thick outlines, simple grain</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Wallpaper ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-wallpaper-canvas" width="128" height="128"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural<br>128x128 tile<br>Vertical yellow/orange stripes</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Bed ⚙️ PROCEDURAL (NEW)</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-bed-canvas" width="160" height="120"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural (NEW)<br>80x60 pixels<br>Wood headboard, red blanket<br>White pillow, chunky Stardew style</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Dresser 🤖 AI (KEEPING)</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-dresser-canvas" width="150" height="150"></canvas>
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>48x56 pixels<br>3 drawers, gold handles<br>✅ Approved quality</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Table ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-table-canvas" width="96" height="64"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural<br>48x32 pixels<br>Will update to chunky Stardew style</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Rug ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-rug-canvas" width="150" height="100"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural<br>150x100 pixels<br>Will update to chunky Stardew style</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Plant 🤖 AI (KEEPING)</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-plant-canvas" width="60" height="80"></canvas>
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>30x40 pixels<br>Potted with leaves<br>✅ Approved quality</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Window ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-window-canvas" width="100" height="80"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural<br>50x40 pixels<br>Will update to chunky Stardew style</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Coffee Maker ⚙️ PROCEDURAL (NEW)</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-coffeemaker-canvas" width="72" height="96"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural (NEW)<br>36x48 pixels<br>Drip coffee maker with glass carafe</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Door 🤖 AI (KEEPING)</div>
+                        <div class="sprite-preview">
+                            <canvas id="cottage-door-canvas" width="120" height="160"></canvas>
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>60x80 pixels<br>Wooden with panels<br>✅ Approved quality</div>
+                    </div>
+                </div>
+
+                <h3>School Classroom <span class="status todo">TODO</span></h3>
+                <div class="placeholder">
+                    Main gameplay area - toddler classroom<br>
+                    - Shelves with Montessori materials<br>
+                    - Tables and chairs<br>
+                    - Nap mats area<br>
+                    - Bathroom (2 toilets)<br>
+                    - Warm, educational atmosphere
+                </div>
+
+                <h3>Village Street Scene <span class="status done">IN PROGRESS</span></h3>
+                <p style="color: #aaa;">The path from cottage to school</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Cobblestone Path ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="village-cobblestone-canvas" width="256" height="256"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural Generation<br>128x128 seamless tile<br>Chunky cobblestones with grout<br>Warm gray-brown colors<br>Shown as 2x2 grid to test tiling</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Virginia's Cottage 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/cottage_exterior_ai.png" width="200" height="180" style="image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">The Rusty Spur 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/rusty_spur_ai.png" width="200" height="180" style="image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels<br>Honky Tonk Bar</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">The Paper Trail 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/paper_trail_ai.png" width="200" height="180" style="image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels<br>Stationary Store</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Maple & Co. General 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/maple_general_ai.png" width="200" height="180" style="image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels<br>General Store</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Mystery House ??? 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/mystery_house_ai.png" width="200" height="180" style="image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels<br>Mysterious Victorian House</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Harrington Manor 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/harrington_manor_ai.png" width="240" height="220" style="image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>240x220 pixels (LARGER)<br>Wealthy Manor House</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Little Sprouts Montessori 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/school_ai.png" width="200" height="180" style="image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels<br>Schoolhouse</div>
+                    </div>
+                </div>
+
+                <h3>Landscaping <span class="status done">COMPLETE</span></h3>
+                <p style="color: #aaa;">Trees, bushes, and flowers for the village street</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Pine Tree ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="village-pine-tree-canvas" width="60" height="80"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural Generation<br>60x80 pixels<br>Three-layer triangle foliage</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Leafy Tree ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="village-leafy-tree-canvas" width="70" height="85"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural Generation<br>70x85 pixels<br>Round overlapping foliage</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Bush ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="village-bush-canvas" width="40" height="35"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural Generation<br>40x35 pixels<br>Small decorative shrub</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Flowers ⚙️ PROCEDURAL</div>
+                        <div class="sprite-preview">
+                            <canvas id="village-flowers-canvas" width="24" height="24"></canvas>
+                        </div>
+                        <div class="sprite-details">⚙️ Procedural Generation<br>24x24 pixels<br>Pink, yellow, purple flowers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materials Tab -->
+        <div id="materials-tab" class="tab-content">
+            <div class="section">
+                <h2>📚 Montessori Materials <span class="status done">AI GENERATED</span></h2>
+                <p style="color: #aaa;">🤖 Generated with FLUX-Schnell in Stardew Valley pixel art style for review</p>
+                <p style="color: #ffaa00; font-weight: bold;">⚠️ NOT YET IN GAME - For review only</p>
+
+                <h3>Sensorial Materials</h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Pink Tower 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_pink_tower.png" alt="Pink Tower" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Graduated pink cubes<br>Size discrimination<br>Classic Montessori sensorial</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Knobbed Cylinders 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_cylinders.png" alt="Cylinders" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Wooden block with knobs<br>Size and dimension work<br>18 months - 3 years</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Color Tablets 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_color_tablets.png" alt="Color Tablets" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Primary color cards<br>Color recognition<br>Visual discrimination</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Nesting Boxes 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_nesting_boxes.png" alt="Nesting Boxes" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Graduated size boxes<br>Size relationships<br>Fine motor development</div>
+                    </div>
+                </div>
+
+                <h3>Practical Life Materials</h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Pouring Pitchers 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_pouring.png" alt="Pouring Pitchers" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Water pouring work<br>Coordination & concentration<br>Care of self</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Spooning Tray 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_spooning.png" alt="Spooning Tray" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Transfer work<br>Hand-eye coordination<br>Fine motor skills</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Child-Sized Broom 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_broom.png" alt="Broom" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Care of environment<br>Sweeping practice<br>Practical life skill</div>
+                    </div>
+                </div>
+
+                <h3>Language & Fine Motor</h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Children's Books 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_books.png" alt="Books" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Language development<br>Vocabulary building<br>Love of reading</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Knobbed Puzzle 🤖</div>
+                        <div class="sprite-preview">
+                            <img src="src/assets/sprites/material_puzzle.png" alt="Puzzle" style="max-width: 200px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">🤖 AI-Generated (FLUX)<br>Shape recognition<br>Fine motor coordination<br>Problem solving</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UI Tab -->
+        <div id="ui-tab" class="tab-content">
+            <div class="section">
+                <h2>🎨 UI Elements <span class="status done">DONE</span></h2>
+                <p style="color: #aaa;">In-game UI components that appear during gameplay</p>
+
+                <h3>Clock Display <span class="status done">DONE</span></h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Game Clock (Upper Right)</div>
+                        <canvas id="clock-ui-canvas" width="300" height="120"></canvas>
+                        <div class="sprite-details">
+                            <strong>Location:</strong> Upper right corner<br>
+                            <strong>Features:</strong><br>
+                            • 12-hour time with AM/PM<br>
+                            • Day counter<br>
+                            • Color-coded urgency (white → yellow → red)<br>
+                            • Updates every second (1 sec = 1 game min)<br>
+                            <strong>Font:</strong> 24px monospace bold<br>
+                            <strong>Used in:</strong> All gameplay scenes
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Energy Meter <span class="status done">DONE</span></h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Energy Bar (Upper Left)</div>
+                        <canvas id="energy-ui-canvas" width="320" height="100"></canvas>
+                        <div class="sprite-details">
+                            <strong>Location:</strong> Upper left corner<br>
+                            <strong>Features:</strong><br>
+                            • Bar meter with numeric display<br>
+                            • Color-coded health:<br>
+                            &nbsp;&nbsp;Green (>60), Yellow (31-60), Red (≤30)<br>
+                            • Passive depletion over time<br>
+                            • +Energy gain animations<br>
+                            • Low energy warning popup<br>
+                            <strong>Range:</strong> 0-100<br>
+                            <strong>Used in:</strong> CottageScene, ClassroomScene
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Mission Tracker <span class="status done">DONE</span></h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Mission Icon (Upper Right)</div>
+                        <canvas id="mission-ui-canvas" width="200" height="200"></canvas>
+                        <div class="sprite-details">
+                            <strong>Location:</strong> Upper right (near clock)<br>
+                            <strong>Features:</strong><br>
+                            • Stardew-style 3-layer border<br>
+                            • Red exclamation point icon<br>
+                            • Red badge with mission count<br>
+                            • Click to show mission popup<br>
+                            • Hover effect (lighter background)<br>
+                            <strong>Icon Size:</strong> 40x40px<br>
+                            <strong>Font:</strong> 32px bold monospace<br>
+                            <strong>Used in:</strong> CottageScene, ClassroomScene
+                        </div>
+                    </div>
+                    <div class="sprite-card">
+                        <div class="sprite-name">Mission Popup (Click to View)</div>
+                        <canvas id="mission-popup-canvas" width="400" height="300"></canvas>
+                        <div class="sprite-details">
+                            <strong>Trigger:</strong> Click mission icon<br>
+                            <strong>Features:</strong><br>
+                            • Semi-transparent overlay<br>
+                            • Stardew-style framed popup<br>
+                            • Checkboxes (☐ pending / ☑ complete)<br>
+                            • Mission descriptions<br>
+                            • Click outside to close<br>
+                            <strong>Size:</strong> 400x300px centered<br>
+                            <strong>Example Mission:</strong><br>
+                            "Reach school by 7:45 AM"
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Inventory Menu <span class="status done">DONE</span></h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Inventory & Clothing Menu (ESC)</div>
+                        <canvas id="inventory-ui-canvas" width="600" height="550"></canvas>
+                        <div class="sprite-details">
+                            <strong>Trigger:</strong> Press ESC key<br>
+                            <strong>Features:</strong><br>
+                            • Full-screen semi-transparent overlay<br>
+                            • Stardew-style 3-layer border<br>
+                            • Title: "INVENTORY & CLOTHING"<br>
+                            <strong>Items Section:</strong><br>
+                            • 8 item slots (4x2 grid)<br>
+                            • Dark border frames<br>
+                            • Empty slot indicator (—)<br>
+                            <strong>Appearance Section:</strong><br>
+                            • Character preview (80x80)<br>
+                            • Bandana position toggle (NECK/HEAD)<br>
+                            • Live sprite preview<br>
+                            • Interactive buttons with hover<br>
+                            <strong>Size:</strong> 600x550px centered<br>
+                            <strong>Used in:</strong> All gameplay scenes
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Interaction Prompts <span class="status done">DONE</span></h3>
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">In-Game Text Prompts</div>
+                        <canvas id="prompts-ui-canvas" width="400" height="250"></canvas>
+                        <div class="sprite-details">
+                            <strong>Types:</strong><br>
+                            • Action prompts (white on black)<br>
+                            &nbsp;&nbsp;Example: "Press E for coffee"<br>
+                            • Success messages (green, animated)<br>
+                            &nbsp;&nbsp;Example: "☕ Coffee!" (floats up)<br>
+                            • Warning messages (red on yellow)<br>
+                            &nbsp;&nbsp;Example: "⚠️ HURRY! 5 minutes left!"<br>
+                            • Failure messages (red on black)<br>
+                            &nbsp;&nbsp;Example: "TOO LATE! You missed school."<br>
+                            <strong>Font:</strong> 16-32px monospace<br>
+                            <strong>Positioning:</strong> Near player or centered
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Tab -->
+        <div id="audio-tab" class="tab-content">
+            <div class="section">
+                <h2>🎵 Music & Sound</h2>
+
+                <h3>Morning Music <span class="status done">COMPLETE</span></h3>
+                <p style="color: #aaa;">AI-generated music for cottage and village morning scenes</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Morning Theme (Acoustic) 🤖</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%;">
+                                <source src="src/assets/audio/morning_theme.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>30 seconds loop<br>Acoustic guitar & piano<br>Peaceful morning vibes</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Morning Theme (Retro) 🤖</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%;">
+                                <source src="src/assets/audio/morning_theme_retro.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>30 seconds loop<br>16-bit chiptune style<br>Upbeat retro game vibes</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Morning Theme (Cozy Retro) 🤖</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%;">
+                                <source src="src/assets/audio/morning_theme_cozy.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>30 seconds loop<br>Soft relaxing chiptune<br>Ultra cozy retro vibes</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Morning Theme (Nature Retro) 🤖</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%;">
+                                <source src="src/assets/audio/morning_theme_nature.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>30 seconds loop<br>SNES style with nature sounds<br>Cozy countryside vibes<br>Soft beeps, not harsh<br><strong>✅ Currently in game</strong></div>
+                    </div>
+                </div>
+
+                <h3>Sound Effects <span class="status done">NEW</span></h3>
+                <p style="color: #aaa;">AI-generated sound effects</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Rooster Crow 🐓</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%;">
+                                <source src="src/assets/audio/dragon-studio-rooster-crowing-364473.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <div class="sprite-details">Rooster crow sound effect<br>Morning wake-up sound<br>Royalty free (Dragon Studio)</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script type="module">
-        import Phaser from '/node_modules/phaser/dist/phaser.esm.js';
+        import * as Phaser from '/node_modules/phaser/dist/phaser.esm.js';
         import { childrenData } from '/src/data/children.js';
         import { generateChildSprite } from '/src/utils/spriteGenerator.js';
+        import {
+            generateVirginiaSprite,
+            generateVirginiaWithHeadBandana,
+            generateVirginiaSide,
+            generateVirginiaSideHeadBandana,
+            generateVirginiaBack,
+            generateVirginiaBackHeadBandana
+        } from '/src/utils/virginiaSprite.js';
+        import { generateRobertSprite, generateRobertAtDesk } from '/src/utils/robertSprite.js';
+        import { generateStardewFloor } from '/src/utils/stardewFloor.js';
+        import { generateCobblestone } from '/src/utils/villagePath.js';
+        import { generateCottageExterior } from '/src/utils/villageBuildings.js';
+        import { generatePineTree, generateLeafyTree, generateBush, generateFlowers } from '/src/utils/villageLandscaping.js';
+        import {
+            generateWoodenFloor,
+            generateWallpaper,
+            generateBed,
+            generateTable,
+            generatePlant,
+            generateCoffeeMaker,
+            generateDoor,
+            generateWindow,
+            generateRug
+        } from '/src/utils/cottageInterior.js';
+
+        // Tab navigation
+        window.showTab = function(tabName, event) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+        };
 
         // Create a hidden Phaser game instance to generate sprites
         const config = {
@@ -223,13 +878,112 @@
             parent: 'hidden-game',
             scene: {
                 create: function() {
-                    generateToddlerPreviews(this);
+                    generateAllSprites(this);
                 }
             }
         };
 
         const game = new Phaser.Game(config);
         game.canvas.style.display = 'none';
+
+        function generateAllSprites(scene) {
+            generateVirginiaPreviews(scene);
+            generateRobertPreview(scene);
+            generateToddlerPreviews(scene);
+            generateCottageFurniturePreviews(scene);
+        }
+
+        function generateVirginiaPreviews(scene) {
+            // Generate all Virginia sprite variations
+            const virginiaKey = generateVirginiaSprite(scene);
+            const virginiaHeadbandKey = generateVirginiaWithHeadBandana(scene);
+            const virginiaSideKey = generateVirginiaSide(scene);
+            const virginiaSideHeadbandKey = generateVirginiaSideHeadBandana(scene);
+            const virginiaBackKey = generateVirginiaBack(scene);
+            const virginiaBackHeadbandKey = generateVirginiaBackHeadBandana(scene);
+
+            // Display front view (neck bandana)
+            const canvas1 = document.getElementById('virginia-canvas');
+            const ctx1 = canvas1.getContext('2d');
+            ctx1.imageSmoothingEnabled = false;
+
+            const texture1 = scene.textures.get(virginiaKey);
+            if (texture1) {
+                const source1 = texture1.getSourceImage();
+                ctx1.drawImage(source1, 0, 0, 48, 48, 0, 0, 192, 192);
+            }
+
+            // Display front view (head bandana)
+            const canvas2 = document.getElementById('virginia-headband-canvas');
+            const ctx2 = canvas2.getContext('2d');
+            ctx2.imageSmoothingEnabled = false;
+
+            const texture2 = scene.textures.get(virginiaHeadbandKey);
+            if (texture2) {
+                const source2 = texture2.getSourceImage();
+                ctx2.drawImage(source2, 0, 0, 48, 48, 0, 0, 192, 192);
+            }
+
+            // Display side view (neck bandana)
+            const canvas3 = document.getElementById('virginia-side-canvas');
+            const ctx3 = canvas3.getContext('2d');
+            ctx3.imageSmoothingEnabled = false;
+
+            const texture3 = scene.textures.get(virginiaSideKey);
+            if (texture3) {
+                const source3 = texture3.getSourceImage();
+                ctx3.drawImage(source3, 0, 0, 48, 48, 0, 0, 192, 192);
+            }
+
+            // Display side view (head bandana)
+            const canvas3b = document.getElementById('virginia-side-headband-canvas');
+            const ctx3b = canvas3b.getContext('2d');
+            ctx3b.imageSmoothingEnabled = false;
+
+            const texture3b = scene.textures.get(virginiaSideHeadbandKey);
+            if (texture3b) {
+                const source3b = texture3b.getSourceImage();
+                ctx3b.drawImage(source3b, 0, 0, 48, 48, 0, 0, 192, 192);
+            }
+
+            // Display back view (neck bandana)
+            const canvas4 = document.getElementById('virginia-back-canvas');
+            const ctx4 = canvas4.getContext('2d');
+            ctx4.imageSmoothingEnabled = false;
+
+            const texture4 = scene.textures.get(virginiaBackKey);
+            if (texture4) {
+                const source4 = texture4.getSourceImage();
+                ctx4.drawImage(source4, 0, 0, 48, 48, 0, 0, 192, 192);
+            }
+
+            // Display back view (head bandana)
+            const canvas4b = document.getElementById('virginia-back-headband-canvas');
+            const ctx4b = canvas4b.getContext('2d');
+            ctx4b.imageSmoothingEnabled = false;
+
+            const texture4b = scene.textures.get(virginiaBackHeadbandKey);
+            if (texture4b) {
+                const source4b = texture4b.getSourceImage();
+                ctx4b.drawImage(source4b, 0, 0, 48, 48, 0, 0, 192, 192);
+            }
+        }
+
+        function generateRobertPreview(scene) {
+            // Generate Robert sprite (at desk variant)
+            const robertKey = generateRobertAtDesk(scene);
+
+            // Display on canvas
+            const canvas = document.getElementById('robert-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            const texture = scene.textures.get(robertKey);
+            if (texture) {
+                const source = texture.getSourceImage();
+                ctx.drawImage(source, 0, 0, 48, 48, 0, 0, 192, 192);
+            }
+        }
 
         function generateToddlerPreviews(scene) {
             const container = document.getElementById('toddler-sprites');
@@ -276,9 +1030,419 @@
             });
         }
 
-        window.exportAllSprites = function() {
-            alert('Export functionality coming soon! For now, take screenshots of the sprites you need.');
-        };
+        function generateCottageFurniturePreviews(scene) {
+            // HYBRID APPROACH: Load AI sprites we're keeping
+            scene.load.image('cottage_dresser_ai', '/src/assets/sprites/cleaned/dresser.png');
+            scene.load.image('cottage_door_ai', '/src/assets/sprites/cleaned/door.png');
+            scene.load.image('cottage_plant_ai', '/src/assets/sprites/cleaned/plant.png');
+
+            scene.load.once('complete', () => {
+                displayAllSprites(scene);
+            });
+            scene.load.start();
+        }
+
+        function displayAllSprites(scene) {
+            // Helper function to display AI textures
+            function displayTexture(canvasId, textureKey, displayWidth, displayHeight) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = false;
+
+                // Clear canvas first
+                ctx.fillStyle = '#f5e6d3';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const texture = scene.textures.get(textureKey);
+                if (texture && texture.source && texture.source[0]) {
+                    const source = texture.getSourceImage();
+                    const srcWidth = source.width;
+                    const srcHeight = source.height;
+
+                    // Center the sprite on canvas
+                    const x = (canvas.width - displayWidth) / 2;
+                    const y = (canvas.height - displayHeight) / 2;
+
+                    ctx.drawImage(source, 0, 0, srcWidth, srcHeight, x, y, displayWidth, displayHeight);
+
+                    console.log(`Displayed ${textureKey}: ${srcWidth}x${srcHeight} -> ${displayWidth}x${displayHeight}`);
+                } else {
+                    // Show "Not Generated" message
+                    ctx.fillStyle = '#666';
+                    ctx.font = '14px monospace';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Not Generated', canvas.width / 2, canvas.height / 2);
+                }
+            }
+
+            // Helper function for procedural textures
+            function displayProcedural(canvasId, key, srcW, srcH, destW, destH) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = false;
+                ctx.fillStyle = '#f5e6d3';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                const texture = scene.textures.get(key);
+                if (texture) {
+                    const source = texture.getSourceImage();
+                    const x = (canvas.width - destW) / 2;
+                    const y = (canvas.height - destH) / 2;
+                    ctx.drawImage(source, 0, 0, srcW, srcH, x, y, destW, destH);
+                }
+            }
+
+            // === GENERATE PROCEDURAL SPRITES ===
+            const floorKey = generateStardewFloor(scene);  // NEW: LARGE planks
+            const wallpaperKey = generateWallpaper(scene);
+            const bedKey = generateBed(scene);  // NEW: Procedural bed
+            const tableKey = generateTable(scene);
+            const windowKey = generateWindow(scene);
+            const rugKey = generateRug(scene);
+            const coffeeMakerKey = generateCoffeeMaker(scene);
+            const cobblestoneKey = generateCobblestone(scene);  // Village path
+            const cottageKey = generateCottageExterior(scene);  // Cottage exterior v2 (detailed)
+
+            // Landscaping
+            const pineTreeKey = generatePineTree(scene);
+            const leafyTreeKey = generateLeafyTree(scene);
+            const bushKey = generateBush(scene);
+            const flowersKey = generateFlowers(scene);
+
+            // === DISPLAY PROCEDURAL SPRITES ===
+            displayProcedural('cottage-floor-canvas', floorKey, 128, 128, 128, 128);
+            displayProcedural('cottage-wallpaper-canvas', wallpaperKey, 128, 128, 128, 128);
+            displayProcedural('cottage-bed-canvas', bedKey, 80, 60, 160, 120);  // NEW: Procedural bed
+            displayProcedural('cottage-table-canvas', tableKey, 48, 32, 96, 64);
+            displayProcedural('cottage-window-canvas', windowKey, 50, 40, 100, 80);
+            displayProcedural('cottage-rug-canvas', rugKey, 150, 100, 150, 100);
+            displayProcedural('cottage-coffeemaker-canvas', coffeeMakerKey, 36, 48, 72, 96);
+
+            // Helper function to display tiled texture (for testing seamless tiling)
+            function displayTiled(canvasId, key, tileW, tileH, tilesX, tilesY) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = false;
+                ctx.fillStyle = '#f5e6d3';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const texture = scene.textures.get(key);
+                if (texture) {
+                    const source = texture.getSourceImage();
+                    // Draw tiled pattern
+                    for (let y = 0; y < tilesY; y++) {
+                        for (let x = 0; x < tilesX; x++) {
+                            ctx.drawImage(source, 0, 0, tileW, tileH, x * tileW, y * tileH, tileW, tileH);
+                        }
+                    }
+                }
+            }
+
+            // === DISPLAY AI SPRITES (keeping these) ===
+            displayTexture('cottage-dresser-canvas', 'cottage_dresser_ai', 150, 150);
+            displayTexture('cottage-plant-canvas', 'cottage_plant_ai', 60, 80);
+            displayTexture('cottage-door-canvas', 'cottage_door_ai', 120, 160);
+
+            // === DISPLAY VILLAGE STREET SPRITES ===
+            displayTiled('village-cobblestone-canvas', cobblestoneKey, 128, 128, 2, 2);  // 2x2 grid
+            displayProcedural('village-cottage-canvas', cottageKey, 200, 180, 200, 180);  // Cottage (procedural - not used)
+
+            // Landscaping
+            displayProcedural('village-pine-tree-canvas', pineTreeKey, 60, 80, 60, 80);
+            displayProcedural('village-leafy-tree-canvas', leafyTreeKey, 70, 85, 70, 85);
+            displayProcedural('village-bush-canvas', bushKey, 40, 35, 40, 35);
+            displayProcedural('village-flowers-canvas', flowersKey, 24, 24, 24, 24);
+
+            // === DISPLAY UI COMPONENTS ===
+            drawClockUI();
+            drawEnergyUI();
+            drawMissionUI();
+            drawMissionPopupUI();
+            drawInventoryUI();
+            drawPromptsUI();
+        }
+
+        // UI Component Drawing Functions
+        function drawClockUI() {
+            const canvas = document.getElementById('clock-ui-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Clock text
+            ctx.font = 'bold 24px monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'right';
+            ctx.fillText('8:30 AM', canvas.width - 20, 40);
+            ctx.font = '18px monospace';
+            ctx.fillText('Day 1', canvas.width - 20, 70);
+        }
+
+        function drawEnergyUI() {
+            const canvas = document.getElementById('energy-ui-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Label
+            ctx.font = '18px monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.fillText('⚡ Energy:', 20, 35);
+
+            // Bar background (dark inset)
+            ctx.fillStyle = '#4A3020';
+            ctx.fillRect(130, 20, 150, 25);
+
+            // Green bar (70% full)
+            ctx.fillStyle = '#58B850';
+            ctx.fillRect(130, 20, 105, 25);
+
+            // Value text
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'right';
+            ctx.fillText('70', 310, 40);
+        }
+
+        function drawMissionUI() {
+            const canvas = document.getElementById('mission-ui-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Center the icon
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            // Stardew-style 3-layer border
+            ctx.fillStyle = '#4A3020';
+            ctx.fillRect(centerX - 28, centerY - 28, 56, 56);
+            ctx.fillStyle = '#8B6F47';
+            ctx.fillRect(centerX - 24, centerY - 24, 48, 48);
+            ctx.fillStyle = '#F5DEB3';
+            ctx.fillRect(centerX - 20, centerY - 20, 40, 40);
+
+            // Red exclamation point
+            ctx.font = 'bold 32px monospace';
+            ctx.fillStyle = '#ff0000';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('!', centerX, centerY);
+
+            // Red badge (mission count)
+            ctx.fillStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.arc(centerX + 15, centerY - 15, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.font = 'bold 12px monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('1', centerX + 15, centerY - 15);
+        }
+
+        function drawMissionPopupUI() {
+            const canvas = document.getElementById('mission-popup-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            // Semi-transparent overlay
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Stardew-style popup frame (centered)
+            const popupX = 50;
+            const popupY = 50;
+            const popupW = 300;
+            const popupH = 200;
+
+            ctx.fillStyle = '#4A3020';
+            ctx.fillRect(popupX, popupY, popupW, popupH);
+            ctx.fillStyle = '#8B6F47';
+            ctx.fillRect(popupX + 4, popupY + 4, popupW - 8, popupH - 8);
+            ctx.fillStyle = '#F5DEB3';
+            ctx.fillRect(popupX + 8, popupY + 8, popupW - 16, popupH - 16);
+
+            // Title
+            ctx.font = 'bold 20px monospace';
+            ctx.fillStyle = '#2C1C0C';
+            ctx.textAlign = 'center';
+            ctx.fillText('CURRENT MISSIONS', popupX + popupW/2, popupY + 40);
+
+            // Mission item
+            ctx.textAlign = 'left';
+            ctx.font = '16px monospace';
+            ctx.fillText('☐ Reach school by 7:45 AM', popupX + 25, popupY + 80);
+
+            // Close instruction
+            ctx.font = '12px monospace';
+            ctx.fillStyle = '#666';
+            ctx.textAlign = 'center';
+            ctx.fillText('(Click outside to close)', popupX + popupW/2, popupY + popupH - 20);
+        }
+
+        function drawInventoryUI() {
+            const canvas = document.getElementById('inventory-ui-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            // Semi-transparent overlay
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Menu container (centered)
+            const menuX = 50;
+            const menuY = 25;
+            const menuW = 500;
+            const menuH = 500;
+
+            // Stardew-style 3-layer border
+            ctx.fillStyle = '#4A3020';
+            ctx.fillRect(menuX, menuY, menuW, menuH);
+            ctx.fillStyle = '#8B6F47';
+            ctx.fillRect(menuX + 4, menuY + 4, menuW - 8, menuH - 8);
+            ctx.fillStyle = '#F5DEB3';
+            ctx.fillRect(menuX + 8, menuY + 8, menuW - 16, menuH - 16);
+
+            // Title
+            ctx.font = 'bold 24px monospace';
+            ctx.fillStyle = '#2C1C0C';
+            ctx.textAlign = 'center';
+            ctx.fillText('INVENTORY & CLOTHING', menuX + menuW/2, menuY + 45);
+
+            // Items section label
+            ctx.font = 'bold 18px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('ITEMS', menuX + menuW/2, menuY + 100);
+
+            // Draw 8 item slots (4x2 grid)
+            const slotSize = 50;
+            const slotSpacing = 60;
+            const startX = menuX + (menuW - slotSpacing * 4) / 2 + 30;
+            const startY = menuY + 120;
+
+            for (let row = 0; row < 2; row++) {
+                for (let col = 0; col < 4; col++) {
+                    const x = startX + col * slotSpacing;
+                    const y = startY + row * slotSpacing;
+
+                    // Slot border
+                    ctx.fillStyle = '#2C1C0C';
+                    ctx.fillRect(x, y, slotSize + 4, slotSize + 4);
+                    // Slot background
+                    ctx.fillStyle = '#E8D4B0';
+                    ctx.fillRect(x + 2, y + 2, slotSize, slotSize);
+                    // Empty indicator
+                    ctx.font = '24px monospace';
+                    ctx.fillStyle = '#999999';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('—', x + slotSize/2 + 2, y + slotSize/2 + 10);
+                }
+            }
+
+            // Appearance section label
+            ctx.font = 'bold 18px monospace';
+            ctx.fillStyle = '#2C1C0C';
+            ctx.fillText('APPEARANCE', menuX + menuW/2, menuY + 290);
+
+            // Character preview box
+            const previewSize = 80;
+            const previewX = menuX + 100;
+            const previewY = menuY + 310;
+            ctx.fillStyle = '#2C1C0C';
+            ctx.fillRect(previewX, previewY, previewSize + 8, previewSize + 8);
+            ctx.fillStyle = '#E8D4B0';
+            ctx.fillRect(previewX + 4, previewY + 4, previewSize, previewSize);
+            ctx.font = '12px monospace';
+            ctx.fillStyle = '#666';
+            ctx.fillText('Preview', previewX + previewSize/2 + 4, previewY + previewSize/2 + 4);
+
+            // Bandana toggle label and button
+            ctx.font = '14px monospace';
+            ctx.fillStyle = '#2C1C0C';
+            ctx.textAlign = 'left';
+            ctx.fillText('Bandana Position:', previewX + 120, previewY + 10);
+
+            // Toggle button
+            const btnX = previewX + 120;
+            const btnY = previewY + 25;
+            const btnW = 120;
+            const btnH = 40;
+            ctx.fillStyle = '#4A7C2C';
+            ctx.fillRect(btnX, btnY, btnW, btnH);
+            ctx.strokeStyle = '#2C1C0C';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(btnX, btnY, btnW, btnH);
+            ctx.font = 'bold 16px monospace';
+            ctx.fillStyle = '#FFFFFF';
+            ctx.textAlign = 'center';
+            ctx.fillText('NECK', btnX + btnW/2, btnY + btnH/2 + 6);
+
+            // Close button
+            const closeX = menuX + menuW/2 - 60;
+            const closeY = menuY + menuH - 80;
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(closeX, closeY, 120, 40);
+            ctx.strokeStyle = '#2C1C0C';
+            ctx.strokeRect(closeX, closeY, 120, 40);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillText('CLOSE', closeX + 60, closeY + 25);
+        }
+
+        function drawPromptsUI() {
+            const canvas = document.getElementById('prompts-ui-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            // Background
+            ctx.fillStyle = '#1a1a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Example 1: Action prompt (white on black)
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(50, 30, 300, 40);
+            ctx.font = '16px monospace';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText('Press E for coffee', 200, 55);
+
+            // Example 2: Success message (green, animated style)
+            ctx.fillStyle = '#58B850';
+            ctx.font = 'bold 24px monospace';
+            ctx.fillText('☕ Coffee!', 200, 110);
+
+            // Example 3: Warning message (red on yellow)
+            ctx.fillStyle = '#ffff00';
+            ctx.fillRect(50, 130, 300, 40);
+            ctx.fillStyle = '#ff0000';
+            ctx.font = 'bold 20px monospace';
+            ctx.fillText('⚠️ HURRY! 5 minutes left!', 200, 157);
+
+            // Example 4: Failure message (red on black)
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(50, 190, 300, 50);
+            ctx.fillStyle = '#ff0000';
+            ctx.font = 'bold 18px monospace';
+            ctx.fillText('TOO LATE!', 200, 215);
+            ctx.font = '16px monospace';
+            ctx.fillText('You missed school.', 200, 235);
+        }
     </script>
 
     <div id="hidden-game"></div>

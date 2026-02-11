@@ -10,19 +10,27 @@ A cozy Montessori toddler classroom management game built with Phaser 3.
 
 ---
 
-## Current Status: Prototype
+## Current Status: Day 1 Complete! ✅
 
 **What's Working:**
+- ✅ **Virginia player sprite** (FINAL - approved design with 2 bandana variants)
+- ✅ **WASD/Arrow movement** with collision detection
+- ✅ **Cottage interior scene** with Valentine's Day decorations
+- ✅ **Clock system** (7:00 AM start, advances in real-time)
+- ✅ **Energy meter** (depletes over time, restored by coffee)
+- ✅ **Robert character** (boyfriend at desk, visual presence)
+- ✅ **Asset viewer** (component-based browser for all sprites)
 - ✅ Observation mechanic (hover over children to see their personality)
 - ✅ 12 unique pixel art toddler characters
 - ✅ Diverse representation (skin tones, hair styles, clothing)
 - ✅ Interactive UI with observation panel
 
-**What's Next:**
-- Lesson presentation mechanic
-- Child movement and NPC behavior
-- Material interaction system
-- Day cycle timer
+**What's Next (Day 2):**
+- School scene (classroom or direct arrival)
+- Zach & Kiki NPC sprites
+- Basic dialogue system
+- Toddler arrival sequence (7:45-8:00 AM)
+- Late penalty mechanic
 
 ---
 
@@ -139,6 +147,18 @@ Each child has unique personality based on Montessori developmental theory:
 
 ### Hot Reload
 Vite automatically reloads when you change code. Just save and the browser updates instantly.
+
+### Debug Mode - Scene Jumping
+For testing specific scenes without playing through the entire game, use URL parameters:
+
+```
+http://localhost:5173/?scene=classroom   # Jump directly to classroom
+http://localhost:5173/?scene=village     # Jump directly to village
+http://localhost:5173/?scene=cottage     # Jump directly to cottage
+http://localhost:5173/?scene=name        # Start at name selection (default)
+```
+
+This is useful for testing later scenes without having to play through the entire sequence every time.
 
 ### Future NPC Behavior Requirements
 Children will eventually need:

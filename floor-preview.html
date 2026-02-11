@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floor Texture Preview</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: monospace;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .preview-box {
+            background: #2a2a2a;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .single-tile {
+            background: #000;
+            padding: 20px;
+            display: inline-block;
+            border: 2px solid #4CAF50;
+            margin: 10px 0;
+        }
+        .single-tile img {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            width: 256px;
+            height: 256px;
+        }
+        .tiled-preview {
+            background: #000;
+            padding: 20px;
+            border: 2px solid #ff9800;
+            margin: 20px 0;
+        }
+        .tiled-preview img {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: monospace;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button.danger {
+            background: #f44336;
+        }
+        button.danger:hover {
+            background: #da190b;
+        }
+        .checklist {
+            background: #2a2a2a;
+            padding: 20px;
+            border-left: 4px solid #ff9800;
+            margin: 20px 0;
+        }
+        .checklist li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Floor Texture - Review Before Cleanup</h1>
+
+        <div class="preview-box">
+            <h2>Single Tile (128x128 at 2x scale)</h2>
+            <div class="single-tile">
+                <img src="/src/assets/sprites/floor_v2.png" alt="Floor single tile">
+            </div>
+            <div class="info">
+                This is ONE tile at 2x zoom. Look for:
+                <ul>
+                    <li><strong>2-3 LARGE vertical planks</strong> (not many small ones)</li>
+                    <li><strong>Warm orange/brown color</strong> (#D8894C)</li>
+                    <li><strong>Simple wood grain</strong> (horizontal lines)</li>
+                    <li><strong>Clean pixel art style</strong> (not blurry/realistic)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="preview-box">
+            <h2>Tiled Pattern (3x3 grid to test seamless tiling)</h2>
+            <div class="tiled-preview" id="tiled-container">
+                <!-- Will be filled by JavaScript -->
+            </div>
+            <div class="info">
+                This shows the tile repeated 3x3. Check:
+                <ul>
+                    <li><strong>Seamless edges</strong> - Do planks align where tiles meet?</li>
+                    <li><strong>No visible seams</strong> - Should look like one continuous floor</li>
+                    <li><strong>Pattern repeats nicely</strong> - Not jarring or obvious</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="checklist">
+            <h2>✅ Review Checklist</h2>
+            <p>Before approving this floor, verify:</p>
+            <ul>
+                <li>☐ Planks are LARGE (40-60px wide each, not tiny)</li>
+                <li>☐ 2-3 planks visible in the tile (not 6-8 small ones)</li>
+                <li>☐ Planks run vertically (top to bottom)</li>
+                <li>☐ Tiles seamlessly when repeated (no visible seams)</li>
+                <li>☐ Warm orange/brown wood color</li>
+                <li>☐ Stardew Valley pixel art style</li>
+                <li>☐ Simple horizontal grain lines (not too detailed)</li>
+            </ul>
+        </div>
+
+        <div style="margin: 30px 0;">
+            <h2>🎯 Decision Time</h2>
+            <p><strong>If the floor looks GOOD:</strong></p>
+            <button onclick="approveFloor()">✅ Approve - Clean Up & Use in Game</button>
+
+            <p style="margin-top: 30px;"><strong>If it needs changes:</strong></p>
+            <button class="danger" onclick="regenerate()">🔄 Tell Me What to Fix</button>
+        </div>
+    </div>
+
+    <script>
+        // Create 3x3 tiled preview
+        const container = document.getElementById('tiled-container');
+        const img = document.createElement('img');
+        img.src = '/src/assets/sprites/floor_v2.png';
+        img.style.width = '384px';  // 128 * 3
+        img.style.height = '384px';
+        img.style.objectFit = 'repeat';
+        img.style.objectPosition = 'top left';
+
+        // Create canvas to tile the image
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 384;
+            canvas.height = 384;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            // Draw 3x3 grid of tiles
+            for (let y = 0; y < 3; y++) {
+                for (let x = 0; x < 3; x++) {
+                    ctx.drawImage(img, x * 128, y * 128, 128, 128);
+                }
+            }
+
+            const tiledImg = document.createElement('img');
+            tiledImg.src = canvas.toDataURL();
+            tiledImg.style.imageRendering = 'pixelated';
+            tiledImg.style.width = '384px';
+            tiledImg.style.height = '384px';
+            container.appendChild(tiledImg);
+        };
+
+        function approveFloor() {
+            alert('Great! Run this command in terminal:\n\nnpm run cleanup-floor\n\nThen refresh the game to see it!');
+        }
+
+        function regenerate() {
+            alert('Tell me what needs to change:\n- Planks too small/large?\n- Wrong color?\n- Not tiling seamlessly?\n- Too detailed/simple?\n\nI\'ll adjust the prompt and regenerate.');
+        }
+    </script>
+</body>
+</html>

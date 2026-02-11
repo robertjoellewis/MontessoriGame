@@ -2,19 +2,37 @@
   "name": "montessori-game",
   "version": "0.1.0",
   "description": "Cozy Montessori toddler classroom management game",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-sprites": "node scripts/generateSprites.js",
+    "generate-sprites-batch2": "node scripts/generateSpritesBatch2.js",
+    "generate-bed": "node scripts/generateBedSprite.js",
+    "generate-bed-v4": "node scripts/generateBedSprite_v4.js",
+    "cleanup-sprites": "node scripts/cleanupSprites.js",
+    "cleanup-bed": "node scripts/cleanupBedFlux.js",
+    "cleanup-all-flux": "node scripts/cleanupAllFlux.js",
+    "generate-all-sprites": "node scripts/generateSpriteTemplate.js",
+    "generate-floor": "node scripts/generateFloor.js",
+    "cleanup-floor": "node scripts/cleanupFloor.js"
   },
-  "keywords": ["game", "montessori", "phaser"],
+  "keywords": [
+    "game",
+    "montessori",
+    "phaser"
+  ],
   "author": "Robert",
   "license": "MIT",
   "dependencies": {
     "phaser": "^3.80.1"
   },
   "devDependencies": {
+    "dotenv": "^17.2.4",
+    "replicate": "^1.4.0",
+    "sharp": "^0.34.5",
     "vite": "^5.0.0"
   }
 }
