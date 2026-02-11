@@ -11,7 +11,7 @@ export default class NameSelectionScene extends Phaser.Scene {
 
     preload() {
         // Load Virginia portrait
-        this.load.image('virginia_portrait', 'src/assets/sprites/virginia_portrait.png');
+        this.load.image('virginia_portrait', 'assets/sprites/virginia_portrait.png');
     }
 
     create() {

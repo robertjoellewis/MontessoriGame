@@ -37,7 +37,7 @@ export default class ClassroomScene extends Phaser.Scene {
     preload() {
         // Load AI-generated material sprites
         materialsData.forEach(material => {
-            this.load.image(material.id, `src/assets/sprites/${material.sprite}`);
+            this.load.image(material.id, `assets/sprites/${material.sprite}`);
         });
     }
 

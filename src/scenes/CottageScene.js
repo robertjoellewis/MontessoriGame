@@ -37,10 +37,10 @@ export default class CottageScene extends Phaser.Scene {
         preloadCottageSprites(this);
 
         // Preload morning music
-        this.load.audio('morning_theme', 'src/assets/audio/morning_theme_nature.mp3');
+        this.load.audio('morning_theme', 'assets/audio/morning_theme_nature.mp3');
 
         // Preload rooster crow sound effect
-        this.load.audio('rooster_crow', 'src/assets/audio/dragon-studio-rooster-crowing-364473.mp3');
+        this.load.audio('rooster_crow', 'assets/audio/dragon-studio-rooster-crowing-364473.mp3');
     }
 
     create() {

@@ -18,16 +18,16 @@ export default class VillageScene extends Phaser.Scene {
 
     preload() {
         // Load AI-generated building sprites
-        this.load.image('cottage_exterior', 'src/assets/sprites/cottage_exterior_ai.png');
-        this.load.image('rusty_spur', 'src/assets/sprites/rusty_spur_ai.png');
-        this.load.image('paper_trail', 'src/assets/sprites/paper_trail_ai.png');
-        this.load.image('maple_general', 'src/assets/sprites/maple_general_ai.png');
-        this.load.image('mystery_house', 'src/assets/sprites/mystery_house_ai.png');
-        this.load.image('harrington_manor', 'src/assets/sprites/harrington_manor_ai.png');
-        this.load.image('school', 'src/assets/sprites/school_ai.png');
+        this.load.image('cottage_exterior', 'assets/sprites/cottage_exterior_ai.png');
+        this.load.image('rusty_spur', 'assets/sprites/rusty_spur_ai.png');
+        this.load.image('paper_trail', 'assets/sprites/paper_trail_ai.png');
+        this.load.image('maple_general', 'assets/sprites/maple_general_ai.png');
+        this.load.image('mystery_house', 'assets/sprites/mystery_house_ai.png');
+        this.load.image('harrington_manor', 'assets/sprites/harrington_manor_ai.png');
+        this.load.image('school', 'assets/sprites/school_ai.png');
 
         // Preload morning music
-        this.load.audio('morning_theme', 'src/assets/audio/morning_theme_nature.mp3');
+        this.load.audio('morning_theme', 'assets/audio/morning_theme_nature.mp3');
     }
 
     init(data) {

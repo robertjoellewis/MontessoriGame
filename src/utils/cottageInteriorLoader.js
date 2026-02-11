@@ -7,15 +7,15 @@
  */
 export function preloadCottageSprites(scene) {
     // Load ALL FLUX-generated sprites (perfect Stardew Valley style)
-    scene.load.image('cottage_floor_ai', '/src/assets/sprites/cleaned/floor_planks.png');
-    scene.load.image('cottage_bed_ai', '/src/assets/sprites/cleaned/bed.png');
-    scene.load.image('cottage_dresser_ai', '/src/assets/sprites/cleaned/dresser.png');
-    scene.load.image('cottage_table_ai', '/src/assets/sprites/cleaned/table.png');
-    scene.load.image('cottage_door_ai', '/src/assets/sprites/cleaned/door.png');
-    scene.load.image('cottage_window_ai', '/src/assets/sprites/cleaned/window.png');
-    scene.load.image('cottage_plant_ai', '/src/assets/sprites/cleaned/plant.png');
-    scene.load.image('cottage_coffee_maker_ai', '/src/assets/sprites/cleaned/coffee_maker.png');
-    scene.load.image('cottage_rug_ai', '/src/assets/sprites/cleaned/rug.png');
+    scene.load.image('cottage_floor_ai', '/assets/sprites/cleaned/floor_planks.png');
+    scene.load.image('cottage_bed_ai', '/assets/sprites/cleaned/bed.png');
+    scene.load.image('cottage_dresser_ai', '/assets/sprites/cleaned/dresser.png');
+    scene.load.image('cottage_table_ai', '/assets/sprites/cleaned/table.png');
+    scene.load.image('cottage_door_ai', '/assets/sprites/cleaned/door.png');
+    scene.load.image('cottage_window_ai', '/assets/sprites/cleaned/window.png');
+    scene.load.image('cottage_plant_ai', '/assets/sprites/cleaned/plant.png');
+    scene.load.image('cottage_coffee_maker_ai', '/assets/sprites/cleaned/coffee_maker.png');
+    scene.load.image('cottage_rug_ai', '/assets/sprites/cleaned/rug.png');
 }
 
 /**
