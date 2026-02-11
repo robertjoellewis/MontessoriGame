@@ -30,9 +30,11 @@
     "phaser": "^3.80.1"
   },
   "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "optionalDependencies": {
     "dotenv": "^17.2.4",
     "replicate": "^1.4.0",
-    "sharp": "^0.34.5",
-    "vite": "^5.0.0"
+    "sharp": "^0.34.5"
   }
 }
