@@ -8,6 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "check-prod": "node scripts/productionCheck.js",
+    "prebuild": "node scripts/productionCheck.js",
     "generate-sprites": "node scripts/generateSprites.js",
     "generate-sprites-batch2": "node scripts/generateSpritesBatch2.js",
     "generate-bed": "node scripts/generateBedSprite.js",
