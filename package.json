@@ -17,7 +17,8 @@
     "cleanup-all-flux": "node scripts/cleanupAllFlux.js",
     "generate-all-sprites": "node scripts/generateSpriteTemplate.js",
     "generate-floor": "node scripts/generateFloor.js",
-    "cleanup-floor": "node scripts/cleanupFloor.js"
+    "cleanup-floor": "node scripts/cleanupFloor.js",
+    "generate-audio": "node scripts/generateAudio.js"
   },
   "keywords": [
     "game",

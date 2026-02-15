@@ -169,6 +169,14 @@ export default class NameSelectionScene extends Phaser.Scene {
         // Save player name to registry for access in other scenes
         this.registry.set('playerName', this.playerName || 'Virginia');
 
+        // CLEAR INVENTORY - Fresh game start
+        // Remove any persisted inventory from previous sessions
+        localStorage.removeItem('montessori_inventory');
+        console.log('New game started - inventory cleared');
+
+        // Set flag for new game session
+        this.registry.set('isNewGame', true);
+
         // Fade out and start cottage scene
         this.cameras.main.fadeOut(500);
 

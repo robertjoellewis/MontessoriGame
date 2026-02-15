@@ -2,7 +2,7 @@
 // Time advances: 1 real second = 1 game minute
 
 export default class Clock {
-    constructor(scene, startHour = 7, startMinute = 0, startDay = 0) {
+    constructor(scene, startHour = 7, startMinute = 0, startDay = 0, timeSpeed = 1) {
         this.scene = scene;
         this.hour = startHour;
         this.minute = startMinute;
@@ -11,8 +11,10 @@ export default class Clock {
         // Day names
         this.dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        // Time advancement: 1 real second = 1 game minute
-        this.msPerGameMinute = 1000; // 1000ms = 1 second
+        // Time advancement: configurable speed
+        // timeSpeed = 1: Normal (1 real second = 1 game minute)
+        // timeSpeed = 2: Double (0.5 real seconds = 1 game minute)
+        this.msPerGameMinute = 1000 / timeSpeed;
         this.accumulator = 0;
 
         // Create clock text (upper right corner)
@@ -39,6 +41,9 @@ export default class Clock {
      * @param {number} delta - Time elapsed since last frame in milliseconds
      */
     update(delta) {
+        // Don't update if paused
+        if (this.paused) return;
+
         this.accumulator += delta;
 
         // Advance time when accumulator reaches threshold
@@ -52,6 +57,20 @@ export default class Clock {
 
         // Update color based on urgency (for morning rush to school)
         this.updateColorBasedOnTime();
+    }
+
+    /**
+     * Pause the clock (stops time advancement)
+     */
+    pause() {
+        this.paused = true;
+    }
+
+    /**
+     * Resume the clock (continues time advancement)
+     */
+    resume() {
+        this.paused = false;
     }
 
     advanceMinute() {

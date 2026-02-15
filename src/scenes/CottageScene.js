@@ -3,10 +3,13 @@
 
 import { generateVirginiaSprite, generateVirginiaWithHeadBandana } from '../utils/virginiaSprite.js';
 import { generateVirginiaWalkingAnimations } from '../utils/virginiaWalkingAnimations.js';
+import { generateRobertAtDeskV4 } from '../utils/robertSprite.js';
 import Clock from '../ui/Clock.js';
 import EnergyMeter from '../ui/EnergyMeter.js';
 import MissionTracker from '../ui/MissionTracker.js';
-import InventoryMenu from '../ui/InventoryMenu.js';
+import ClothingMenu from '../ui/ClothingMenu.js';
+import InventorySystem from '../systems/InventorySystem.js';
+import InventoryUI from '../ui/InventoryUI.js';
 import { preloadCottageSprites } from '../utils/cottageInteriorLoader.js';
 import { generateStardewFloor } from '../utils/stardewFloor.js';
 import {
@@ -30,6 +33,9 @@ export default class CottageScene extends Phaser.Scene {
     init(data) {
         // Receive game time from previous scene (or start at 7:00 AM)
         this.gameTime = data.gameTime || { hour: 7, minute: 0 };
+
+        // Track if Robert has given snack today
+        this.hasReceivedSnackToday = false;
     }
 
     preload() {
@@ -41,6 +47,46 @@ export default class CottageScene extends Phaser.Scene {
 
         // Preload rooster crow sound effect
         this.load.audio('rooster_crow', 'assets/audio/dragon-studio-rooster-crowing-364473.mp3');
+
+        // Generate placeholder item icon for gluten-free bar
+        this.generateGlutenFreeBarIcon();
+    }
+
+    generateGlutenFreeBarIcon() {
+        const graphics = this.make.graphics({ x: 0, y: 0, add: false });
+
+        // Create a 32x32 energy bar icon
+        // Wrapper (silver/foil color)
+        graphics.fillStyle(0xc0c0c0, 1);
+        graphics.fillRect(4, 8, 24, 16);
+
+        // Wrapper highlights
+        graphics.fillStyle(0xe8e8e8, 1);
+        graphics.fillRect(6, 9, 4, 14);
+        graphics.fillRect(22, 9, 4, 14);
+
+        // Bar visible through wrapper
+        graphics.fillStyle(0x8b6f47, 1);  // Brown bar
+        graphics.fillRect(8, 12, 16, 8);
+
+        // Oats/grains texture
+        graphics.fillStyle(0xa89070, 1);
+        graphics.fillRect(9, 13, 2, 1);
+        graphics.fillRect(12, 14, 2, 1);
+        graphics.fillRect(15, 13, 2, 1);
+        graphics.fillRect(19, 15, 2, 1);
+
+        // "GF" text on wrapper
+        graphics.fillStyle(0x4a7c59, 1);  // Green for gluten-free
+        graphics.fillRect(10, 6, 1, 3);   // G vertical
+        graphics.fillRect(11, 6, 2, 1);   // G top
+        graphics.fillRect(11, 8, 2, 1);   // G middle
+        graphics.fillRect(14, 6, 1, 3);   // F vertical
+        graphics.fillRect(15, 6, 2, 1);   // F top
+        graphics.fillRect(15, 7, 1, 1);   // F middle
+
+        graphics.generateTexture('item_gluten_free_bar', 32, 32);
+        graphics.destroy();
     }
 
     create() {
@@ -106,10 +152,21 @@ export default class CottageScene extends Phaser.Scene {
         // Add initial mission: Get to school by 7:45 AM
         this.missionTracker.addMission('Reach school by 7:45 AM', 'reach_school');
 
-        // Create inventory menu (opened with ESC key)
+        // Initialize inventory system
+        this.inventorySystem = new InventorySystem(this, {
+            hotbarSize: 10,
+            inventoryRows: 4,
+            inventoryCols: 10,
+            persistKey: 'montessori_inventory'
+        });
+
+        // Initialize inventory UI
+        this.inventoryUI = new InventoryUI(this, this.inventorySystem);
+
+        // Create clothing menu (opened with C key)
         // Note: Must be created after player sprite exists
         this.time.delayedCall(100, () => {
-            this.inventoryMenu = new InventoryMenu(this, this.player);
+            this.clothingMenu = new ClothingMenu(this, this.player);
         });
 
         // Wake-up sequence
@@ -249,7 +306,16 @@ export default class CottageScene extends Phaser.Scene {
         this.door.body.setSize(66, 90);  // 20% larger: 55*1.2=66, 75*1.2=90
         this.door.body.setOffset(-33, -45);
 
-        // Robert removed - this is Virginia's single bedroom (Stardew style)
+        // === ROBERT AT DESK (lower left corner, facing left) ===
+        const robertDeskKey = generateRobertAtDeskV4(this);
+        const robertX = 70;   // Desk touching left wall
+        const robertY = 420;  // Near bottom, facing left toward his laptop
+        this.robert = this.add.image(this.roomX + robertX, this.roomY + robertY, robertDeskKey)
+            .setOrigin(0.5)
+            .setScale(2.5);  // Scale up for visibility
+        this.physics.add.existing(this.robert, true);
+        this.robert.body.setSize(48, 48);
+        this.robert.body.setOffset(-24, -24);
     }
 
     createPlayer() {
@@ -409,8 +475,14 @@ export default class CottageScene extends Phaser.Scene {
         this.coffeeZone = this.add.zone(coffeeX, coffeeY, 80, 80);
         this.physics.add.existing(this.coffeeZone);
 
+        // Robert interaction zone (lower left corner)
+        const robertX = this.roomX + 70;
+        const robertY = this.roomY + 420;
+        this.robertZone = this.add.zone(robertX, robertY, 100, 100);
+        this.physics.add.existing(this.robertZone);
+
         // Interaction prompts (hidden by default, room-relative coordinates)
-        this.doorPrompt = this.add.text(doorX, doorY - 40, 'Walk through door to leave', {
+        this.doorPrompt = this.add.text(doorX, doorY - 40, 'Click to leave', {
             fontSize: '18px',
             fill: '#ffffff',
             backgroundColor: '#000000',
@@ -418,6 +490,13 @@ export default class CottageScene extends Phaser.Scene {
         }).setOrigin(0.5).setVisible(false).setDepth(1000);
 
         this.coffeePrompt = this.add.text(coffeeX, coffeeY + 60, 'Press E for coffee', {
+            fontSize: '16px',
+            fill: '#ffffff',
+            backgroundColor: '#000000',
+            padding: { x: 8, y: 4 }
+        }).setOrigin(0.5).setVisible(false).setDepth(1000);
+
+        this.robertPrompt = this.add.text(robertX, robertY + 80, 'Click to talk to Robert', {
             fontSize: '16px',
             fill: '#ffffff',
             backgroundColor: '#000000',
@@ -440,15 +519,15 @@ export default class CottageScene extends Phaser.Scene {
         // Interaction keys
         this.eKey = this.input.keyboard.addKey('E');
 
-        // Menu key (ESC)
-        this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // Clothing menu key (C)
+        this.cKey = this.input.keyboard.addKey('C');
 
         // Key press handlers
         this.eKey.on('down', () => this.handleCoffeeInteraction());
 
-        this.escKey.on('down', () => {
-            if (this.inventoryMenu) {
-                this.inventoryMenu.toggle();
+        this.cKey.on('down', () => {
+            if (this.clothingMenu) {
+                this.clothingMenu.toggle();
             }
         });
     }
@@ -460,16 +539,46 @@ export default class CottageScene extends Phaser.Scene {
         // Player collides with furniture
         this.physics.add.collider(this.player, this.bed);
         this.physics.add.collider(this.player, this.dresser);
+        this.physics.add.collider(this.player, this.robert);
         // Coffee maker is on wall (no collision needed)
 
-        // Overlap detection for interaction zones
-        this.physics.add.overlap(this.player, this.doorZone, () => {
+        // Make door zone interactive (click to exit)
+        this.doorZone.setInteractive({ useHandCursor: true });
+
+        // Show/hide prompt on hover
+        this.doorZone.on('pointerover', () => {
             this.doorPrompt.setVisible(true);
-            this.handleDoorInteraction(); // Automatic entry
         });
 
+        this.doorZone.on('pointerout', () => {
+            this.doorPrompt.setVisible(false);
+        });
+
+        // Click to exit
+        this.doorZone.on('pointerdown', () => {
+            this.handleDoorInteraction();
+        });
+
+        // Coffee zone overlap (show prompt when near)
         this.physics.add.overlap(this.player, this.coffeeZone, () => {
             this.coffeePrompt.setVisible(true);
+        });
+
+        // Make Robert interactive (click to interact)
+        this.robertZone.setInteractive({ useHandCursor: true });
+
+        // Show/hide prompt on hover
+        this.robertZone.on('pointerover', () => {
+            this.robertPrompt.setVisible(true);
+        });
+
+        this.robertZone.on('pointerout', () => {
+            this.robertPrompt.setVisible(false);
+        });
+
+        // Click to interact with Robert
+        this.robertZone.on('pointerdown', () => {
+            this.handleRobertInteraction();
         });
     }
 
@@ -614,12 +723,135 @@ export default class CottageScene extends Phaser.Scene {
         }
     }
 
+    handleRobertInteraction() {
+        // Check if player is near Robert
+        const distance = Phaser.Math.Distance.Between(
+            this.player.x, this.player.y,
+            this.robert.x, this.robert.y
+        );
+
+        if (distance < 100) {
+            // Check if already received snack today
+            if (this.hasReceivedSnackToday) {
+                console.log('Already got snack from Robert today');
+
+                // Show already-received message
+                const messageText = this.add.text(this.robert.x, this.robert.y - 80,
+                    "You already got your snack!\nSee you tonight!", {
+                    fontSize: '16px',
+                    fill: '#ffffff',
+                    backgroundColor: '#000000',
+                    padding: { x: 8, y: 4 },
+                    align: 'center'
+                }).setOrigin(0.5).setDepth(1001);
+
+                // Fade out message
+                this.time.delayedCall(2000, () => {
+                    this.tweens.add({
+                        targets: messageText,
+                        alpha: 0,
+                        duration: 500,
+                        onComplete: () => messageText.destroy()
+                    });
+                });
+
+                return;
+            }
+
+            console.log('Interacting with Robert...');
+
+            // Disable interaction during animation
+            this.hasReceivedSnackToday = true;
+
+            // Show heart animation above Robert
+            const heart = this.add.text(this.robert.x, this.robert.y - 60, '❤️', {
+                fontSize: '32px'
+            }).setOrigin(0.5).setDepth(1001);
+
+            // Heart animation (float up and fade)
+            this.tweens.add({
+                targets: heart,
+                y: this.robert.y - 100,
+                alpha: 0,
+                duration: 1500,
+                ease: 'Cubic.easeOut',
+                onComplete: () => heart.destroy()
+            });
+
+            // Show dialogue from Robert
+            const dialogueText = this.add.text(this.robert.x, this.robert.y - 80,
+                "Here's a snack for the road,\nmy love! Stay energized!", {
+                fontSize: '14px',
+                fill: '#ffffff',
+                backgroundColor: '#000000',
+                padding: { x: 8, y: 4 },
+                align: 'center'
+            }).setOrigin(0.5).setDepth(1001);
+
+            // Show snack received notification
+            const snackText = this.add.text(this.player.x, this.player.y - 60,
+                '+20 Energy\n✓ Gluten-Free Energy Bar', {
+                fontSize: '16px',
+                fill: '#4CAF50',
+                fontStyle: 'bold',
+                backgroundColor: '#000000',
+                padding: { x: 8, y: 4 },
+                align: 'center'
+            }).setOrigin(0.5).setDepth(1001);
+
+            // Add energy
+            this.energyMeter.addEnergy(20);
+
+            // Add snack to inventory system
+            const itemAdded = this.inventorySystem.addItem('gluten_free_bar', 1);
+
+            // Refresh inventory UI to show the new item
+            if (this.inventoryUI) {
+                this.inventoryUI.refreshDisplay();
+            }
+
+            // Store flag in registry for "already received today" logic
+            this.registry.set('hasSnack', true);
+
+            // Log success or failure
+            if (itemAdded) {
+                console.log('Gluten-Free Energy Bar added to inventory');
+            } else {
+                console.warn('Failed to add Gluten-Free Energy Bar - inventory full?');
+            }
+
+            // Float up snack notification and fade out
+            this.tweens.add({
+                targets: snackText,
+                y: this.player.y - 100,
+                alpha: 0,
+                duration: 2000,
+                onComplete: () => snackText.destroy()
+            });
+
+            // Fade out dialogue after 2.5 seconds
+            this.time.delayedCall(2500, () => {
+                this.tweens.add({
+                    targets: dialogueText,
+                    alpha: 0,
+                    duration: 500,
+                    onComplete: () => dialogueText.destroy()
+                });
+            });
+        }
+    }
+
     update(time, delta) {
         // Update clock
         this.clock.update(delta);
 
         // Update energy meter
         this.energyMeter.update(delta);
+
+        // Update inventory UI
+        if (this.inventoryUI) {
+            this.inventoryUI.update();
+        }
 
         // Don't process input during wake-up sequence
         if (!this.controlsEnabled) {
@@ -703,6 +935,15 @@ export default class CottageScene extends Phaser.Scene {
         );
         if (coffeeDistance > 80) {
             this.coffeePrompt.setVisible(false);
+        }
+
+        // Robert prompt (hide when not near)
+        const robertDistance = Phaser.Math.Distance.Between(
+            this.player.x, this.player.y,
+            this.robert.x, this.robert.y
+        );
+        if (robertDistance > 100) {
+            this.robertPrompt.setVisible(false);
         }
     }
 }

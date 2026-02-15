@@ -27,7 +27,7 @@ A cozy Montessori toddler classroom management game built with Phaser 3.
 
 **What's Next (Day 2):**
 - School scene (classroom or direct arrival)
-- Zach & Kiki NPC sprites
+- Wade & Kiki NPC sprites
 - Basic dialogue system
 - Toddler arrival sequence (7:45-8:00 AM)
 - Late penalty mechanic

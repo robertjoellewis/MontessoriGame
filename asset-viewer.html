@@ -191,6 +191,9 @@
             <button class="nav-tab" onclick="showTab('materials', event)">📚 Materials (NEW)</button>
             <button class="nav-tab" onclick="showTab('ui', event)">UI Elements</button>
             <button class="nav-tab" onclick="showTab('audio', event)">🎵 Audio</button>
+            <button class="nav-tab" onclick="showTab('title', event)">🎨 Title Screens</button>
+            <button class="nav-tab" onclick="showTab('titleNoText', event)">🖼️ Titles (No Text) (NEW)</button>
+            <button class="nav-tab" onclick="showTab('cursors', event)">🖱️ Cursors (NEW)</button>
         </div>
 
         <!-- Virginia Tab -->
@@ -270,13 +273,89 @@
                     </div>
                 </div>
 
-                <div class="character-showcase">
-                    <h3>Robert - Boyfriend (Work-from-Home) ❤️</h3>
-                    <canvas id="robert-canvas" width="192" height="192"></canvas>
-                    <div class="character-info">
+                <div class="section">
+                    <h3>Robert - Boyfriend (Work-from-Home) ❤️ - CHOOSE YOUR FAVORITE!</h3>
+                    <p style="color: #81c784; margin-bottom: 20px;">
+                        <strong>Select the best Robert sprite!</strong> All versions show Robert at his desk with laptop (facing left).<br>
+                        Based on reference photos: brown hair, fair skin, blue-gray plaid shirt, friendly appearance.
+                    </p>
+
+                    <div class="sprite-grid">
+                        <!-- V1: Current/Refined -->
+                        <div class="sprite-card">
+                            <div class="sprite-name">V1: Current/Refined</div>
+                            <div class="sprite-preview">
+                                <canvas id="robert-v1-canvas" width="192" height="192"></canvas>
+                            </div>
+                            <div class="sprite-details">
+                                Detailed features with shading<br>
+                                Defined jawline and hair highlights<br>
+                                Complex plaid pattern<br>
+                                <em>Most polished overall</em>
+                            </div>
+                        </div>
+
+                        <!-- V2: Softer/Rounder -->
+                        <div class="sprite-card">
+                            <div class="sprite-name">V2: Softer/Rounder</div>
+                            <div class="sprite-preview">
+                                <canvas id="robert-v2-canvas" width="192" height="192"></canvas>
+                            </div>
+                            <div class="sprite-details">
+                                Rounder, friendlier features<br>
+                                Larger eyes, wider smile<br>
+                                Approachable and warm<br>
+                                <em>Most friendly/inviting</em>
+                            </div>
+                        </div>
+
+                        <!-- V3: Angular/Professional -->
+                        <div class="sprite-card">
+                            <div class="sprite-name">V3: Angular/Professional</div>
+                            <div class="sprite-preview">
+                                <canvas id="robert-v3-canvas" width="192" height="192"></canvas>
+                            </div>
+                            <div class="sprite-details">
+                                Sharp, defined features<br>
+                                Strong jawline and cheekbones<br>
+                                Darker, sleeker hair<br>
+                                <em>Most professional/mature</em>
+                            </div>
+                        </div>
+
+                        <!-- V4: Simple Pixel Art -->
+                        <div class="sprite-card">
+                            <div class="sprite-name">V4: Simple Pixel Art</div>
+                            <div class="sprite-preview">
+                                <canvas id="robert-v4-canvas" width="192" height="192"></canvas>
+                            </div>
+                            <div class="sprite-details">
+                                Clean, retro style<br>
+                                Minimal shading and detail<br>
+                                Classic pixel art aesthetic<br>
+                                <em>Most retro/game-like</em>
+                            </div>
+                        </div>
+
+                        <!-- V5: Premium Detail -->
+                        <div class="sprite-card">
+                            <div class="sprite-name">V5: Premium Detail</div>
+                            <div class="sprite-preview">
+                                <canvas id="robert-v5-canvas" width="192" height="192"></canvas>
+                            </div>
+                            <div class="sprite-details">
+                                Multi-tone shading throughout<br>
+                                Layered hair and eye detail<br>
+                                Complex plaid intersections<br>
+                                <em>Most detailed/premium</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-info" style="margin-top: 30px; background: #3a3a3a; padding: 20px; border-radius: 8px;">
                         <strong>Character:</strong> Virginia's boyfriend<br>
-                        Works from home at desk with laptop<br>
-                        <em>Note: Placeholder sprite - will update with photo reference</em><br>
+                        <strong>Setting:</strong> Works from home at desk with laptop<br>
+                        <strong>Reference:</strong> Brown hair, fair skin, blue-gray plaid shirt<br>
                         <strong>Future Mechanic:</strong> Love points system (post-prototype)
                     </div>
                 </div>
@@ -299,12 +378,15 @@
             <div class="section">
                 <h2>👥 NPCs (Non-Player Characters)</h2>
 
-                <h3>Zach (Lead Guide) <span class="status todo">TODO</span></h3>
-                <div class="placeholder">
-                    Virginia's supervisor at the school<br>
-                    - Male adult sprite<br>
-                    - Professional but warm<br>
-                    - Portrait needed for dialogue
+                <h3>Wade (Lead Guide) <span class="status done">DONE</span></h3>
+                <div class="character-showcase">
+                    <h4>Wade - Front View</h4>
+                    <canvas id="wade-front-canvas" width="192" height="192"></canvas>
+                    <div class="character-info">
+                        <strong>Role:</strong> Lead Guide at Bluebonnet Montessori<br>
+                        <strong>Features:</strong> Dark brown hair, beard, professional green polo, khaki pants<br>
+                        <strong>Personality:</strong> Professional but warm, high standards for staff and children
+                    </div>
                 </div>
 
                 <h3>Kiki (Assistant) <span class="status todo">TODO</span></h3>
@@ -485,11 +567,11 @@
                     </div>
 
                     <div class="sprite-card">
-                        <div class="sprite-name">Little Sprouts Montessori 🤖</div>
+                        <div class="sprite-name">Bluebonnet Montessori 🤖</div>
                         <div class="sprite-preview">
                             <img src="assets/sprites/school_ai.png" width="200" height="180" style="image-rendering: pixelated;">
                         </div>
-                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels<br>Schoolhouse</div>
+                        <div class="sprite-details">🤖 AI Generated (FLUX-schnell)<br>200x180 pixels<br>Schoolhouse in Austin, TX</div>
                     </div>
                 </div>
 
@@ -805,10 +887,212 @@
                     </div>
                 </div>
 
+                <h3>Classroom Music (Pre-Naptime) <span class="status done">NEW</span></h3>
+                <p style="color: #aaa;">Upbeat, engaging music for active classroom time</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Classroom Song 1: Playful 🎵</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/classroomSong1.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #4CAF50; font-family: monospace; font-size: 12px;">
+                                🎶 120 BPM - Energetic<br>
+                                ⏱️ ~35 seconds<br>
+                                Piano + Bright Chords
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Loop-able structure<br>Major key, bouncy rhythm</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Classroom Song 2: Curious 🎵</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/classroomSong2.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #4CAF50; font-family: monospace; font-size: 12px;">
+                                🎶 100 BPM - Gentle<br>
+                                ⏱️ ~35 seconds<br>
+                                Kalimba + Bell + Bass
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Loop-able structure<br>Curiosity-inspiring tones</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Classroom Song 3: Encouraging 🎵</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/classroomSong3.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #4CAF50; font-family: monospace; font-size: 12px;">
+                                🎶 110 BPM - Warm<br>
+                                ⏱️ ~35 seconds<br>
+                                Piano + Supportive Chords
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Loop-able structure<br>Confidence-building</div>
+                    </div>
+                </div>
+
+                <h3>Naptime Music (Lullabies) <span class="status done">NEW</span></h3>
+                <p style="color: #aaa;">Calming, soothing music to help children rest</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Naptime Song 1: Rocking 🌙</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/naptimeSong1.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #9C27B0; font-family: monospace; font-size: 12px;">
+                                🎶 60 BPM - Slow<br>
+                                ⏱️ ~35 seconds<br>
+                                Gentle rocking lullaby
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Loop-able lullaby<br>Soft, soothing motion</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Naptime Song 2: Dreamy 🌙</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/naptimeSong2.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #9C27B0; font-family: monospace; font-size: 12px;">
+                                🎶 55 BPM - Very Slow<br>
+                                ⏱️ ~35 seconds<br>
+                                Peaceful, spacious melody
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Loop-able lullaby<br>Dreamy and calm</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Naptime Song 3: Soothing 🌙</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/naptimeSong3.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #9C27B0; font-family: monospace; font-size: 12px;">
+                                🎶 50 BPM - Ultra Slow<br>
+                                ⏱️ ~35 seconds<br>
+                                Warm, sleep-inducing
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Loop-able lullaby<br>Deep, calming tones</div>
+                    </div>
+                </div>
+
                 <h3>Sound Effects <span class="status done">NEW</span></h3>
                 <p style="color: #aaa;">AI-generated sound effects</p>
 
                 <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Teaching Success ✨</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/teachingSuccess.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #4CAF50; font-family: monospace; font-size: 12px;">
+                                ⏱️ ~1 second<br>
+                                Ascending arpeggio<br>
+                                Bright "ding!" sound
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Celebrates success<br>Encouraging chime</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Teaching Failure 💭</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/teachingFailure.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #FF9800; font-family: monospace; font-size: 12px;">
+                                ⏱️ ~1 second<br>
+                                Gentle descending notes<br>
+                                Curious "try again"
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Not harsh or punishing<br>Encouraging tone</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Teaching Success 2 ✨</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/teachingSuccess2.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #4CAF50; font-family: monospace; font-size: 12px;">
+                                ⏱️ ~1 second<br>
+                                Magical sparkle chime<br>
+                                Ascending xylophone
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Smooth fade out<br>Cheerful celebration</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Teaching Success 3 ✨</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/teachingSuccess3.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #4CAF50; font-family: monospace; font-size: 12px;">
+                                ⏱️ ~1 second<br>
+                                Bright piano chord<br>
+                                Natural decay
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Smooth gentle ending<br>Positive achievement</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Teaching Failure 2 💭</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/teachingFailure2.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #FF9800; font-family: monospace; font-size: 12px;">
+                                ⏱️ ~1 second<br>
+                                Soft marimba notes<br>
+                                Gentle curious tone
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Smooth fade out<br>Friendly, non-judgmental</div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Teaching Failure 3 💭</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <audio controls style="width: 100%; margin-bottom: 15px;">
+                                <source src="assets/audio/teachingFailure3.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div style="color: #FF9800; font-family: monospace; font-size: 12px;">
+                                ⏱️ ~1 second<br>
+                                Wooden xylophone<br>
+                                Thoughtful descending
+                            </div>
+                        </div>
+                        <div class="sprite-details">🤖 AI Generated (MusicGen)<br>Warm gentle ending<br>Encouraging to try again</div>
+                    </div>
+
                     <div class="sprite-card">
                         <div class="sprite-name">Rooster Crow 🐓</div>
                         <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
@@ -818,6 +1102,231 @@
                             </audio>
                         </div>
                         <div class="sprite-details">Rooster crow sound effect<br>Morning wake-up sound<br>Royalty free (Dragon Studio)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Title Screens Tab -->
+        <div id="title-tab" class="tab-content">
+            <div class="section">
+                <h2>🎨 Title Screens - Bluebonnet Montessori <span class="status done">NEW</span></h2>
+                <p style="color: #aaa;">AI-generated title screen options for the game</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Title Screen 1: Watercolor Style</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_screen_1.png" alt="Watercolor Title Screen" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Cozy classroom aesthetic<br>
+                            Warm colors, soft lighting<br>
+                            Watercolor art style
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Title Screen 2: Pixel Art Style</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_screen_2.png" alt="Pixel Art Title Screen" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Stardew Valley inspired<br>
+                            16-bit retro aesthetic<br>
+                            Vibrant classroom scene
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Title Screen 3: Illustration Style</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_screen_3.png" alt="Illustration Title Screen" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Hand-drawn illustration<br>
+                            School exterior view<br>
+                            Storybook style, bluebonnet flowers
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Title Screens (No Text) Tab -->
+        <div id="titleNoText-tab" class="tab-content">
+            <div class="section">
+                <h2>🖼️ Title Screens - No Text <span class="status done">NEW</span></h2>
+                <p style="color: #aaa;">AI-generated title screens without text - ready for manual text overlay</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Watercolor Classroom Interior</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_notext_1.png" alt="Watercolor Classroom" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Cozy classroom with learning materials<br>
+                            Watercolor art style<br>
+                            No text - clean for editing
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Pixel Art Classroom</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_notext_2.png" alt="Pixel Art Classroom" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Stardew Valley inspired<br>
+                            16-bit retro style<br>
+                            No text - ready for logo
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">School Exterior Illustration</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_notext_3.png" alt="School Exterior" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Bluebonnet flowers, charming building<br>
+                            Hand-drawn illustration style<br>
+                            No text or signs
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Aerial Classroom View</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_notext_4.png" alt="Aerial Classroom" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Top-down classroom perspective<br>
+                            Children working with materials<br>
+                            No text overlay
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Golden Hour Classroom</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_notext_5.png" alt="Golden Hour Classroom" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            Warm sunbeams, cozy atmosphere<br>
+                            Painterly art style<br>
+                            Clean scene without text
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Pixel Art School Exterior</div>
+                        <div class="sprite-preview" style="padding: 10px; background: #2a2a2a;">
+                            <img src="assets/title_screens/title_notext_6.png" alt="Pixel School Exterior" style="width: 100%; border-radius: 4px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated (Flux Schnell)<br>
+                            School with playground<br>
+                            Retro 16-bit style<br>
+                            No signs or text
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cursors Tab -->
+        <div id="cursors-tab" class="tab-content">
+            <div class="section">
+                <h2>🖱️ Game Cursor Options <span class="status done">NEW</span></h2>
+                <p style="color: #aaa;">Cute cursor designs for the game - AI generated options to choose from</p>
+
+                <div class="sprite-grid">
+                    <div class="sprite-card">
+                        <div class="sprite-name">Hand Pointer (Cartoon)</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <img src="assets/cursors/cursor_hand_1.png" alt="Hand Cursor 1" style="max-width: 100px; image-rendering: auto;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated<br>
+                            Cute cartoon hand<br>
+                            Warm friendly design<br>
+                            White outline
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Hand Pointer (Pixel Art)</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <img src="assets/cursors/cursor_hand_2.png" alt="Hand Cursor 2" style="max-width: 100px; image-rendering: pixelated;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated<br>
+                            16-bit pixel style<br>
+                            Chunky retro look<br>
+                            Matches game aesthetic
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Star Cursor</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <img src="assets/cursors/cursor_star_1.png" alt="Star Cursor" style="max-width: 100px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated<br>
+                            Golden sparkly star<br>
+                            Whimsical friendly design<br>
+                            Perfect for teaching moments
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Heart Cursor</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <img src="assets/cursors/cursor_heart_1.png" alt="Heart Cursor" style="max-width: 100px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated<br>
+                            Soft pink/coral heart<br>
+                            Nurturing warm design<br>
+                            Montessori love theme
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Bluebonnet Flower Cursor</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <img src="assets/cursors/cursor_flower_1.png" alt="Flower Cursor" style="max-width: 100px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated<br>
+                            Small bluebonnet flower<br>
+                            Purple-blue petals<br>
+                            School mascot themed
+                        </div>
+                    </div>
+
+                    <div class="sprite-card">
+                        <div class="sprite-name">Rounded Arrow Pointer</div>
+                        <div class="sprite-preview" style="padding: 20px; background: #2a2a2a;">
+                            <img src="assets/cursors/cursor_pointer_1.png" alt="Arrow Cursor" style="max-width: 100px;">
+                        </div>
+                        <div class="sprite-details">
+                            🤖 AI Generated<br>
+                            Soft rounded arrow<br>
+                            Cozy friendly style<br>
+                            Warm color palette
+                        </div>
                     </div>
                 </div>
             </div>
@@ -836,7 +1345,16 @@
             generateVirginiaBack,
             generateVirginiaBackHeadBandana
         } from '/src/utils/virginiaSprite.js';
-        import { generateRobertSprite, generateRobertAtDesk } from '/src/utils/robertSprite.js';
+        import {
+            generateRobertSprite,
+            generateRobertAtDesk,
+            generateRobertAtDeskV1,
+            generateRobertAtDeskV2,
+            generateRobertAtDeskV3,
+            generateRobertAtDeskV4,
+            generateRobertAtDeskV5
+        } from '/src/utils/robertSprite.js';
+        import { generateWadeSprite } from '/src/utils/wadeSprite.js';
         import { generateStardewFloor } from '/src/utils/stardewFloor.js';
         import { generateCobblestone } from '/src/utils/villagePath.js';
         import { generateCottageExterior } from '/src/utils/villageBuildings.js';
@@ -889,6 +1407,7 @@
         function generateAllSprites(scene) {
             generateVirginiaPreviews(scene);
             generateRobertPreview(scene);
+            generateWadePreview(scene);
             generateToddlerPreviews(scene);
             generateCottageFurniturePreviews(scene);
         }
@@ -970,15 +1489,48 @@
         }
 
         function generateRobertPreview(scene) {
-            // Generate Robert sprite (at desk variant)
-            const robertKey = generateRobertAtDesk(scene);
+            // Generate all 5 Robert sprite variants
+            const robertV1Key = generateRobertAtDeskV1(scene);
+            const robertV2Key = generateRobertAtDeskV2(scene);
+            const robertV3Key = generateRobertAtDeskV3(scene);
+            const robertV4Key = generateRobertAtDeskV4(scene);
+            const robertV5Key = generateRobertAtDeskV5(scene);
+
+            // Helper function to render sprite to canvas
+            function renderRobertVariant(canvasId, textureKey) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = false;
+
+                const texture = scene.textures.get(textureKey);
+                if (texture) {
+                    const source = texture.getSourceImage();
+                    ctx.drawImage(source, 0, 0, 48, 48, 0, 0, 192, 192);
+                }
+            }
+
+            // Render all 5 variants
+            renderRobertVariant('robert-v1-canvas', robertV1Key);
+            renderRobertVariant('robert-v2-canvas', robertV2Key);
+            renderRobertVariant('robert-v3-canvas', robertV3Key);
+            renderRobertVariant('robert-v4-canvas', robertV4Key);
+            renderRobertVariant('robert-v5-canvas', robertV5Key);
+        }
+
+        function generateWadePreview(scene) {
+            // Generate Wade sprite
+            const wadeKey = generateWadeSprite(scene);
 
             // Display on canvas
-            const canvas = document.getElementById('robert-canvas');
+            const canvas = document.getElementById('wade-front-canvas');
+            if (!canvas) return;
+
             const ctx = canvas.getContext('2d');
             ctx.imageSmoothingEnabled = false;
 
-            const texture = scene.textures.get(robertKey);
+            const texture = scene.textures.get(wadeKey);
             if (texture) {
                 const source = texture.getSourceImage();
                 ctx.drawImage(source, 0, 0, 48, 48, 0, 0, 192, 192);

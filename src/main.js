@@ -4,6 +4,7 @@ import CottageScene from './scenes/CottageScene.js';
 import VillageScene from './scenes/VillageScene.js';
 import ClassroomScene from './scenes/ClassroomScene.js';
 import ObservationScene from './scenes/ObservationScene.js';
+import NapRoomScene from './scenes/NapRoomScene.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -19,7 +20,7 @@ const config = {
             debug: false // Set to true to see collision boxes
         }
     },
-    scene: [NameSelectionScene, CottageScene, VillageScene, ClassroomScene, ObservationScene],
+    scene: [NameSelectionScene, CottageScene, VillageScene, ClassroomScene, ObservationScene, NapRoomScene],
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
@@ -37,7 +38,8 @@ const config = {
                     'cottage': 'CottageScene',
                     'village': 'VillageScene',
                     'classroom': 'ClassroomScene',
-                    'observation': 'ObservationScene'
+                    'observation': 'ObservationScene',
+                    'naproom': 'NapRoomScene'
                 };
 
                 const sceneName = sceneMap[sceneParam.toLowerCase()];
@@ -49,6 +51,10 @@ const config = {
                     game.registry.set('playerName', 'Virginia');
                     game.registry.set('playerEnergy', 100);
                     game.registry.set('bandanaOnHead', false);
+
+                    // Clear inventory for debug mode (fresh start)
+                    localStorage.removeItem('montessori_inventory');
+                    game.registry.set('isNewGame', true);
 
                     // Stop the default starting scene
                     game.scene.stop('NameSelectionScene');

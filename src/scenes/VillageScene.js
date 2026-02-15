@@ -9,7 +9,9 @@ import { generatePineTree, generateLeafyTree, generateBush, generateFlowers } fr
 import Clock from '../ui/Clock.js';
 import EnergyMeter from '../ui/EnergyMeter.js';
 import MissionTracker from '../ui/MissionTracker.js';
-import InventoryMenu from '../ui/InventoryMenu.js';
+import ClothingMenu from '../ui/ClothingMenu.js';
+import InventorySystem from '../systems/InventorySystem.js';
+import InventoryUI from '../ui/InventoryUI.js';
 
 export default class VillageScene extends Phaser.Scene {
     constructor() {
@@ -121,6 +123,9 @@ export default class VillageScene extends Phaser.Scene {
         // === LANDSCAPING ===
         this.createLandscaping();
 
+        // === ROAD SIGN ===
+        this.createRoadSign();
+
         // === VIRGINIA (PLAYER) ===
         this.createPlayer();
 
@@ -154,8 +159,20 @@ export default class VillageScene extends Phaser.Scene {
         // Add mission: Get to school by 7:45 AM
         this.missionTracker.addMission('Reach school by 7:45 AM', 'reach_school');
 
-        // === INVENTORY MENU ===
-        this.inventoryMenu = new InventoryMenu(this, this.player);
+        // === INVENTORY SYSTEM ===
+        // Initialize inventory system (shared across all scenes via localStorage)
+        this.inventorySystem = new InventorySystem(this, {
+            hotbarSize: 10,
+            inventoryRows: 4,
+            inventoryCols: 10,
+            persistKey: 'montessori_inventory'
+        });
+
+        // Initialize inventory UI
+        this.inventoryUI = new InventoryUI(this, this.inventorySystem);
+
+        // === CLOTHING MENU ===
+        this.clothingMenu = new ClothingMenu(this, this.player);
 
         // === CONTROLS ===
         this.setupControls();
@@ -316,6 +333,62 @@ export default class VillageScene extends Phaser.Scene {
         });
     }
 
+    createRoadSign() {
+        // Road sign pointing to Bluebonnet Montessori school
+        // Position near cottage (x: 200) so it's visible when game starts
+        const signX = 400;
+        const signY = 480;
+
+        // Wooden sign post
+        const postGraphics = this.add.graphics();
+        postGraphics.fillStyle(0x8B4513, 1); // Brown wood
+        postGraphics.fillRect(signX - 5, signY, 10, 80); // Vertical post
+        postGraphics.setDepth(5);
+
+        // Sign board (wooden plank with arrow)
+        const signWidth = 200;
+        const signHeight = 50;
+
+        // Sign background (wooden plank)
+        const signBg = this.add.rectangle(signX + signWidth/2, signY + 20, signWidth, signHeight, 0xD2691E);
+        signBg.setStrokeStyle(3, 0x8B4513);
+        signBg.setDepth(6);
+
+        // Arrow pointing right
+        const arrowGraphics = this.add.graphics();
+        arrowGraphics.fillStyle(0xFFFFFF, 1);
+        arrowGraphics.lineStyle(3, 0x2C1C0C);
+
+        // Arrow shaft
+        arrowGraphics.fillRect(signX + signWidth - 50, signY + 15, 35, 6);
+        arrowGraphics.strokeRect(signX + signWidth - 50, signY + 15, 35, 6);
+
+        // Arrow head (triangle)
+        arrowGraphics.fillTriangle(
+            signX + signWidth - 15, signY + 8,  // Top point
+            signX + signWidth - 15, signY + 28, // Bottom point
+            signX + signWidth, signY + 18       // Right point (tip)
+        );
+        arrowGraphics.strokeTriangle(
+            signX + signWidth - 15, signY + 8,
+            signX + signWidth - 15, signY + 28,
+            signX + signWidth, signY + 18
+        );
+        arrowGraphics.setDepth(7);
+
+        // Sign text
+        const signText = this.add.text(signX + 20, signY + 20, 'Bluebonnet\nMontessori', {
+            fontSize: '16px',
+            fontFamily: 'monospace',
+            fill: '#2C1C0C',
+            fontStyle: 'bold',
+            align: 'left',
+            lineSpacing: -2
+        }).setOrigin(0, 0.5).setDepth(7);
+
+        console.log('Road sign created pointing to Bluebonnet Montessori');
+    }
+
     createClouds(worldWidth, worldHeight) {
         // Simple chunky clouds (Stardew style)
         const cloudColor = 0xFFFFFF;
@@ -444,12 +517,12 @@ export default class VillageScene extends Phaser.Scene {
             right: Phaser.Input.Keyboard.KeyCodes.D
         });
 
-        // Menu key (ESC)
-        this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        // Clothing menu key (C)
+        this.cKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
-        this.escKey.on('down', () => {
-            if (this.inventoryMenu) {
-                this.inventoryMenu.toggle();
+        this.cKey.on('down', () => {
+            if (this.clothingMenu) {
+                this.clothingMenu.toggle();
             }
         });
     }
@@ -461,39 +534,16 @@ export default class VillageScene extends Phaser.Scene {
             return;
         }
 
-        // Check time
-        const currentMinutes = this.gameTime.hour * 60 + this.gameTime.minute;
-        const deadlineMinutes = 7 * 60 + 45; // 7:45 AM
+        // Always allow entry to school (Wade will scold if late)
+        console.log('Entering school...');
 
-        if (currentMinutes <= deadlineMinutes) {
-            // SUCCESS - On time!
-            console.log('Arrived on time! Entering school...');
+        // Fade out
+        this.cameras.main.fadeOut(500);
 
-            // Fade out
-            this.cameras.main.fadeOut(500);
-
-            this.cameras.main.once('camerafadeoutcomplete', () => {
-                // Load Classroom Scene
-                this.scene.start('ClassroomScene', { gameTime: this.gameTime });
-            });
-        } else {
-            // FAILURE - Too late!
-            console.log('Too late! School day failed.');
-
-            const lateText = this.add.text(this.player.x, this.player.y - 100, 'TOO LATE!\nYou missed school.', {
-                fontSize: '32px',
-                fill: '#ff0000',
-                fontStyle: 'bold',
-                backgroundColor: '#000000',
-                padding: { x: 20, y: 10 },
-                align: 'center'
-            }).setOrigin(0.5).setScrollFactor(1).setDepth(100);
-
-            // Restart after 3 seconds
-            this.time.delayedCall(3000, () => {
-                this.scene.start('CottageScene', { gameTime: { hour: 7, minute: 0 } });
-            });
-        }
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+            // Load Classroom Scene
+            this.scene.start('ClassroomScene', { gameTime: this.gameTime });
+        });
     }
 
     update(time, delta) {
@@ -504,6 +554,11 @@ export default class VillageScene extends Phaser.Scene {
         // Update energy meter
         if (this.energyMeter) {
             this.energyMeter.update(delta);
+        }
+
+        // Update inventory UI
+        if (this.inventoryUI) {
+            this.inventoryUI.update();
         }
 
         // Movement (all directions)
