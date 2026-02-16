@@ -19,8 +19,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm install          # Install dependencies (first time)
 npm run dev          # Start development server (http://localhost:5173)
-npm run build        # Build for production
-npm run preview      # Preview production build
+npm run build        # Build for production (auto-runs check-prod first)
+npm run preview      # Preview production build (http://localhost:4173/MontessoriGame/)
+npm run check-prod   # Verify production readiness (assets, paths, config)
 ```
 
 ### Scene Jumping (Debug Mode)
@@ -197,11 +198,12 @@ this.fadeOverlay.setDepth(5000);    // Transition overlay above all
 
 #### ClassroomScene.js
 **Most Complex Scene - Teaching Mechanics:**
-- Children arrive 7:45-8:00 AM (late = penalty)
-- Teaching: Click child → E key → success/failure based on timing
-- Tutorial system with `controlsEnabled` flag
-- Nap time triggers at 12:30 PM → transitions to NapRoomScene
-- Wade NPC dialogue (click-only, not automatic)
+- Children arrive 7:45-8:00 AM (if Virginia late, children appear instantly)
+- Wade dialogue: Check if late (>= 8:00 AM) for scolding message
+- Teaching: Click material shelf → "Teach" button (hidden until 8:00 AM) → click child
+- Success notifications: Small popups in top-right under mission tracker (1050, 350)
+- Nap time triggers at 12:15 PM → smooth fade to NapRoomScene
+- Clock runs at 2x speed for faster gameplay
 
 **Critical Flags:**
 - `this.controlsEnabled` - Prevents input during tutorials/animations
@@ -238,6 +240,27 @@ To change: Update import and call in `CottageScene.js:6,310`
 - Children pop up randomly, click to put back down
 - 5-minute timer (in-game time)
 - Fade transitions in/out (smooth black overlay)
+
+**Critical Transition Fix:**
+Black overlay MUST be created at start of `create()` with high depth (10000+) to prevent flash of nap room before fade-in. Clock runs at 2x speed like classroom.
+
+```javascript
+create() {
+    // BLACK OVERLAY FIRST (prevents visual flash)
+    const fadeInOverlay = this.add.rectangle(640, 360, 1280, 720, 0x000000, 1)
+        .setScrollFactor(0)
+        .setDepth(10000);
+
+    // ... build room content ...
+
+    // Fade in from black
+    this.tweens.add({
+        targets: fadeInOverlay,
+        alpha: 0,
+        duration: 1000
+    });
+}
+```
 
 ### Critical Configuration
 
@@ -305,9 +328,23 @@ this.tweens.add({
     alpha: 1,
     duration: 1000,
     onComplete: () => {
+        // DON'T destroy overlay here - keep screen black during transition
         this.scene.start('NextScene', { gameTime: {...} });
+        // Cleanup happens in shutdown() automatically
     }
 });
+```
+
+**Shutdown Handler Pattern:**
+Every scene should implement `shutdown()` for cleanup:
+```javascript
+shutdown() {
+    this.tweens.killAll();           // Stop all tweens
+    this.time.removeAllEvents();     // Clear timers
+    if (this.music?.isPlaying) {
+        this.music.stop();           // Stop music
+    }
+}
 ```
 
 #### localStorage Management
@@ -382,16 +419,62 @@ OUTLINE_BLACK: 0x2C1C0C
 - Scene jumping via URL params (see above)
 
 **Common Issues:**
-1. **Sprites not appearing:** Check depth values, ensure texture generated before use
-2. **Inventory not persisting:** Verify `persistKey` matches across scenes
-3. **Animations not updating:** Must regenerate textures before recreating animations
-4. **Physics not working:** Ensure `this.physics.add.existing()` called, check body size/offset
-5. **Scene won't transition:** Check that clock is paused before transition
+1. **Blank screen in production:** Assets not in `public/` folder → run `npm run check-prod`
+2. **Sprites not appearing:** Check depth values, ensure texture generated before use
+3. **Inventory not persisting:** Verify `persistKey` matches across scenes
+4. **Animations not updating:** Must regenerate textures before recreating animations
+5. **Physics not working:** Ensure `this.physics.add.existing()` called, check body size/offset
+6. **Clock method error:** Use `clock.update(delta)` NOT `clock.tick()` in scene update()
+7. **Flash during transitions:** Create black overlay FIRST in new scene's create() method
+8. **Right-click not working:** Check `pointer.button === 2` AND disable context menu
 
-## Deployment
+## Production Deployment
 
-Push to `main` branch → GitHub Actions automatically builds and deploys to GitHub Pages.
+### Critical Pre-Deployment Rule
+**ALWAYS run `npm run check-prod` before pushing to production.**
 
-**Live URL:** `https://YOUR-USERNAME.github.io/MontessoriGame/`
+This automated script prevents common production failures:
+- ✅ Verifies all asset files exist in `public/` directory
+- ✅ Checks assets are synced between `assets/` and `public/assets/`
+- ✅ Validates Vite base path configuration
+- ✅ Confirms build output is recent and valid
+- ✅ Detects hardcoded localhost URLs
+- ✅ Verifies all import paths resolve
 
-See `DEPLOYMENT.md` for setup instructions.
+The check runs automatically before `npm run build` via the `prebuild` hook.
+
+### Asset Management Rules
+**Critical:** Vite only serves files from `public/` in production builds.
+
+**Correct Workflow:**
+```bash
+# When adding new assets (audio, sprites, etc.):
+1. Add to public/assets/audio/ or public/assets/sprites/
+2. OR: Copy from assets/ to public/assets/
+   cp assets/audio/newSong.mp3 public/assets/audio/
+
+3. Verify sync:
+   npm run check-prod
+
+4. Test production build:
+   npm run build
+   npm run preview  # Test at localhost:4173/MontessoriGame/
+```
+
+**Common Production Bug:**
+Files in `assets/` but not `public/assets/` will cause blank screens in production (404 errors when loading). The check-prod script catches this automatically.
+
+### Deployment Workflow
+```bash
+# 1. Verify production readiness
+npm run check-prod
+
+# 2. Test production build locally
+npm run build && npm run preview
+
+# 3. Push to deploy
+git push origin main
+# → GitHub Actions auto-deploys to: https://robertjoellewis.github.io/MontessoriGame/
+```
+
+See `DEPLOYMENT.md` for complete troubleshooting guide and asset sync procedures.
